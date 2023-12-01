@@ -1,0 +1,162 @@
+﻿<Window x:Class="CentralSIG.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:converter="clr-namespace:CentralSIG.Converters"
+        Title="CENTRAL SISTEMA INTEGRADO DE GERENCIAMENTO" 
+        Height="600" Width="800" 
+        WindowStartupLocation="CenterScreen" 
+        WindowStyle="ToolWindow" Loaded="Window_Loaded">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="Black" Color="#FF000000"/>
+        <SolidColorBrush x:Key="Grey" Color="#FF767676"/>
+        <SolidColorBrush x:Key="W Grey" Color="#FFD6D4D4"/>
+        <Style x:Key="AutoCompleteStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="ColumnHeaderStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Foreground" Value="#FFFFFFFF" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="PathFrameEllipseStyle" TargetType="Ellipse">
+            <Setter Property="Width" Value="40" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Stroke" Value="#FFFFFFFF" />
+            <Setter Property="StrokeThickness" Value="2" />
+        </Style>
+
+        <!--<local:ExampleViewModel x:Key="ViewModel" />-->
+
+        <DataTemplate x:Key="SongsSearchAutoComplete">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Title}" Style="{StaticResource AutoCompleteStyle}" />
+                <TextBlock Text=", " Style="{StaticResource AutoCompleteStyle}" />
+                <TextBlock Text="{Binding Author}" Style="{StaticResource AutoCompleteStyle}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="MoviesSearchAutoComplete">
+            <StackPanel Orientation="Horizontal">
+                <Path Data="M11.000001,11.000001 L11.000001,13.000001 L13.000001,13.000001 L13.000001,11.000001 z M1.000001,11.000001 L1.000001,13.000001 L3.0000007,13.000001 L3.0000007,11.000001 z M11.000001,7.0000005 L11.000001,9.000001 L13.000001,9.000001 L13.000001,7.0000005 z M1.0000004,7 L1.0000004,9 L3.0000002,9 L3.0000002,7 z M11.000001,3.0000002 L11.000001,5.0000005 L13.000001,5.0000005 L13.000001,3.0000002 z M1.000001,3.0000002 L1.000001,5.0000005 L3.0000007,5.0000005 L3.0000007,3.0000002 z M0,0 L1.000001,0 L1.000001,1.0000005 L3.0000007,1.0000005 L3.0000007,0 L11.000001,0 L11.000001,1.0000005 L13.000001,1.0000005 L13.000001,0 L14,0 L14,16 L13.000001,16 L13.000001,15 L11.000001,15 L11.000001,16 L3.0000007,16 L3.0000007,15 L1.000001,15 L1.000001,16 L0,16 z" 
+					  Fill="#FF307EBA" HorizontalAlignment="Left" Margin="7 0 0 0" Stretch="Fill" Width="14" Height="16" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding MovieTitle}" Style="{StaticResource AutoCompleteStyle}" Margin="10 0 0 0" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="FoodPlacesSearchAutoComplete">
+            <StackPanel Orientation="Horizontal">
+                <Border Height="36" Width="36" >
+                    <Image Source="{Binding IconPath}" Height="26" Width="26" />
+                </Border>
+                <TextBlock Text="{Binding Name}" Style="{StaticResource AutoCompleteStyle}" Margin="10 0 0 0" />
+            </StackPanel>
+        </DataTemplate>
+
+        <converter:StringToUpperCaseConverter x:Key="StringToUpperCaseConverter" />
+
+        <sys:Double x:Key="ColumnWidth">240</sys:Double>
+    </Window.Resources>
+
+    <Grid Margin="0 0 -1 0" HorizontalAlignment="Center" Height="405">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        
+        <telerik:Label HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="16" Margin="0 0 0 10" Content="Clica no Módulo para abrir o Sistema" Padding="0 0 0 20"/>
+        
+        <StackPanel Grid.Row="1" Grid.Column="0"  Grid.ColumnSpan="3" Orientation="Horizontal">
+            
+            <StackPanel x:Name="LeftColumn" Grid.Row="1" Grid.Column="0" Width="{StaticResource ColumnWidth}">
+                <StackPanel Background="#FF33CC35" Height="55" Orientation="Horizontal" MouseDown="OnOpenProducao">
+                    <TextBlock Margin="10 0 0 0" TextWrapping="Wrap" Text=" PRODUÇÃO " Style="{StaticResource ColumnHeaderStyle}"/>
+                </StackPanel>
+            </StackPanel>
+            
+            
+            <StackPanel x:Name="CenterColumn" Grid.Row="1" Grid.Column="1" Width="{StaticResource ColumnWidth}" Margin="10 0">
+                <StackPanel Background="#FFBA309B" Height="55" Orientation="Horizontal" MouseDown="OnOpenCompras">
+                    <TextBlock Margin="10 0 0 0" TextWrapping="Wrap" Text=" COMPRAS " Style="{StaticResource ColumnHeaderStyle}"/>
+                </StackPanel>
+            </StackPanel>
+            
+            
+            <StackPanel x:Name="RightColumn" Grid.Row="1" Grid.Column="2" Width="{StaticResource ColumnWidth}">
+                <StackPanel Background="#FF6251A1" Height="55" Orientation="Horizontal" MouseDown="OnOpenExpedicao">
+                    <TextBlock Margin="5 0 0 0" TextWrapping="Wrap" Text=" EXPEDIÇÃO " Style="{StaticResource ColumnHeaderStyle}"/>
+                </StackPanel>
+            </StackPanel>
+            
+        </StackPanel>
+
+
+
+        <StackPanel Grid.Row="2" Grid.Column="0"  Grid.ColumnSpan="3" Orientation="Horizontal">
+
+            <StackPanel x:Name="LeftColumn2" Grid.Row="1" Grid.Column="0" Width="{StaticResource ColumnWidth}">
+                <StackPanel Background="#FF33B3CC" Height="55" Orientation="Horizontal" MouseDown="OnOpenAlmoxarifado">
+                    <TextBlock Margin="10 0 0 0" TextWrapping="Wrap" Text=" ALMOXARIFADO " Style="{StaticResource ColumnHeaderStyle}"/>
+                </StackPanel>
+            </StackPanel>
+
+
+            <StackPanel x:Name="CenterColumn2" Grid.Row="1" Grid.Column="1" Width="{StaticResource ColumnWidth}" Margin="10 0">
+                <StackPanel Background="#FFBA5C30" Height="55" Orientation="Horizontal" MouseDown="OnOpenOperacional">
+                    <TextBlock Margin="10 0 0 0" TextWrapping="Wrap" Text=" OPERACIONAL " Style="{StaticResource ColumnHeaderStyle}"/>
+                </StackPanel>
+            </StackPanel>
+
+
+            <StackPanel x:Name="RightColumn2" Grid.Row="1" Grid.Column="2" Width="{StaticResource ColumnWidth}">
+                <StackPanel Background="#FF860E0E" Height="55" Orientation="Horizontal" MouseDown="OnOpenComercial">
+                    <TextBlock Margin="5 0 0 0" TextWrapping="Wrap" Text=" COMERCIAL " Style="{StaticResource ColumnHeaderStyle}"/>
+                </StackPanel>
+            </StackPanel>
+
+        </StackPanel>
+
+
+        <StackPanel Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="3" Orientation="Horizontal">
+
+            <StackPanel x:Name="LeftColumn3" Grid.Row="1" Grid.Column="0" Width="{StaticResource ColumnWidth}">
+                <StackPanel Background="#FF797979" Height="55" Orientation="Horizontal" MouseDown="OnOpenFinanceiro">
+                    <TextBlock Margin="10 0 0 0" TextWrapping="Wrap" Text=" FINANCEIRO " Style="{StaticResource ColumnHeaderStyle}"/>
+                </StackPanel>
+            </StackPanel>
+
+
+            <!--
+            <StackPanel x:Name="CenterColumn3" Grid.Row="1" Grid.Column="1" Width="{StaticResource ColumnWidth}" Margin="10 0">
+                <StackPanel Background="#FFBA5C30" Height="55" Orientation="Horizontal" MouseDown="OnOpenOperacional">
+                    <TextBlock Margin="10 0 0 0" TextWrapping="Wrap" Text=" OPERACIONAL " Style="{StaticResource ColumnHeaderStyle}"/>
+                </StackPanel>
+            </StackPanel>
+
+
+            <StackPanel x:Name="RightColumn3" Grid.Row="1" Grid.Column="2" Width="{StaticResource ColumnWidth}">
+                <StackPanel Background="#FF860E0E" Height="55" Orientation="Horizontal" MouseDown="OnOpenComercial">
+                    <TextBlock Margin="5 0 0 0" TextWrapping="Wrap" Text=" COMERCIAL " Style="{StaticResource ColumnHeaderStyle}"/>
+                </StackPanel>
+            </StackPanel>
+            -->
+        </StackPanel>
+
+
+    </Grid>
+    
+</Window>

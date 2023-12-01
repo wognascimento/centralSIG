@@ -1,0 +1,1925 @@
+<ResourceDictionary
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        xmlns:c="http://schemas.telerik.com/2008/xaml/compile"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="c"
+        xmlns:telerik1="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls"
+        xmlns:scheduling="clr-namespace:Telerik.Windows.Controls.Scheduling;assembly=Telerik.Windows.Scheduling.Core"
+        xmlns:gantt="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.GanttView"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:gantt1="clr-namespace:Telerik.Windows.Controls.GanttView;assembly=Telerik.Windows.Controls.GanttView"
+        xmlns:helpers="clr-namespace:Telerik.Windows.Controls.Theming.Helpers;assembly=Telerik.Windows.Controls">
+    <ResourceDictionary.MergedDictionaries>
+        <telerik:Windows11ResourceDictionary/>
+    </ResourceDictionary.MergedDictionaries>
+    <telerik1:DragDropBooleanToVisibilityConverter x:Key="DragDropBooleanToVisibilityConverter"/>
+    <telerik1:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <telerik1:InvertedBooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter"/>
+    <FontFamily x:Key="TelerikWebUI">/Telerik.Windows.Controls;component/Themes/Fonts/old/TelerikWebUI.ttf#TelerikWebUI</FontFamily>
+    <sys:String x:Key="GlyphArrowsKpi"></sys:String>
+    <sys:String x:Key="GlyphArrowChevronRight"></sys:String>
+    <sys:String x:Key="GlyphArrowChevronDown"></sys:String>
+    <sys:String x:Key="GlyphArrowChevronLeft"></sys:String>
+    <sys:String x:Key="GlyphArrowDown"></sys:String>
+    <sys:String x:Key="GlyphLinkHorizontal"></sys:String>
+    <sys:String x:Key="GlyphCancel"></sys:String>
+    <sys:String x:Key="GlyphPlus"></sys:String>
+    <sys:String x:Key="GlyphInsertUp"></sys:String>
+    <sys:String x:Key="GlyphInsertMiddle"></sys:String>
+    <sys:String x:Key="GlyphInsertDown"></sys:String>
+    <Style x:Key="RadGlyphStyle" TargetType="telerik1:RadGlyph">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Font" Value="TelerikFluentIcons"/>
+        <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+        <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center"/>
+    </Style>
+    <Style TargetType="telerik1:RadGlyph" BasedOn="{StaticResource RadGlyphStyle}"/>
+    <telerik:UppercaseConverter x:Key="UpperCaseStringConverter"/>
+    <gantt:DateTimeToCurrentUICultureStringConverter x:Key="DateTimeToCurrentUICultureStringConverter"/>
+    <SolidColorBrush x:Key="SemiTransparentBrush" Color="#01FFFFFF"/>
+    <SolidColorBrush x:Key="OnTimeBrush" Color="#FF01A507"/>
+    <Style x:Key="BorderContainerStyle" TargetType="scheduling:BorderContainer">
+        <Setter Property="IsHitTestVisible" Value="True"/>
+        <Setter Property="BorderBrush" Value="{telerik:Windows11Resource ResourceKey=PrimarySolidBorderBrush}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="telerik:ZIndexManager.ZIndex" Value="5"/>
+        <Setter Property="BorderThickness" Value="1 0"/>
+        <Setter Property="Margin" Value="0 -1 -1 0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="scheduling:BorderContainer">
+                    <Rectangle x:Name="Border"
+                            Margin="0"
+                            Stroke="{TemplateBinding BorderBrush}"
+                            StrokeThickness="{TemplateBinding BorderThickness}"
+                            Fill="{TemplateBinding Background}"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="AlternatingBorderContainerStyle" TargetType="scheduling:AlternatingBorderContainer" BasedOn="{StaticResource BorderContainerStyle}"/>
+    <Style x:Key="SpecialSlotContainerStyle" TargetType="scheduling:SpecialSlotContainer">
+        <Setter Property="BorderBrush" Value="{telerik:Windows11Resource ResourceKey=AlternativeBrush}"/>
+        <Setter Property="Background" Value="{telerik:Windows11Resource ResourceKey=AlternativeBrush}"/>
+        <Setter Property="telerik:ZIndexManager.ZIndex" Value="10"/>
+        <Setter Property="Margin" Value="-1 0 0 0"/>
+        <Setter Property="BorderThickness" Value="1 0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="scheduling:SpecialSlotContainer">
+                    <Border x:Name="Border"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Opacity="0.4"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="TickContainerBaseStyle" TargetType="scheduling:HeaderedTickContainer">
+        <Setter Property="FontSize" Value="{telerik:Windows11Resource ResourceKey=FontSize}"/>
+        <Setter Property="FontFamily" Value="{telerik:Windows11Resource ResourceKey=FontFamily}"/>
+        <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+        <Setter Property="Background" Value="{telerik:Windows11Resource ResourceKey=PrimarySolidBackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{telerik:Windows11Resource ResourceKey=PrimarySolidBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="0 1 1 1"/>
+        <Setter Property="MinHeight" Value="23"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=DisabledForegroundBrush}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="GroupTickContainerStyle" TargetType="scheduling:GroupTickContainer" BasedOn="{StaticResource TickContainerBaseStyle}">
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="FontSize" Value="{telerik:Windows11Resource ResourceKey=FontSize}"/>
+        <Setter Property="BorderThickness" Value="0 1 1 1"/>
+        <Setter Property="Padding" Value="6 2 6 0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="scheduling:GroupTickContainer">
+                    <Border
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch">
+                        <TextBlock Text="{Binding FormattedValue}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=DisabledForegroundBrush}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="MajorTickContainerStyle" TargetType="scheduling:MajorTickContainer" BasedOn="{StaticResource TickContainerBaseStyle}">
+        <Setter Property="Background" Value="{telerik:Windows11Resource ResourceKey=PrimarySolidBackgroundBrush}"/>
+        <Setter Property="BorderThickness" Value="0 0 1 1"/>
+        <Setter Property="Padding" Value="6 2 0 0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="scheduling:MajorTickContainer">
+                    <Border
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch">
+                        <TextBlock Text="{Binding FormattedValue, Converter={StaticResource UpperCaseStringConverter}}" Margin="{TemplateBinding Padding}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=DisabledForegroundBrush}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="MinorTickContainerStyle" TargetType="scheduling:MinorTickContainer">
+        <Setter Property="FontSize" Value="{telerik:Windows11Resource ResourceKey=FontSize}"/>
+        <Setter Property="FontFamily" Value="{telerik:Windows11Resource ResourceKey=FontFamily}"/>
+        <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{telerik:Windows11Resource ResourceKey=PrimarySolidBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="0 0 1 1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="scheduling:MinorTickContainer">
+                    <Border
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=DisabledForegroundBrush}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="CurrentHourTickContainerStyle" TargetType="scheduling:CurrentHourTickContainer">
+        <Setter Property="Background" Value="{telerik:Windows11Resource ResourceKey=AccentBrush}"/>
+        <Setter Property="Margin" Value="-1 0 -2 0"/>
+        <Setter Property="telerik:ZIndexManager.ZIndex" Value="15"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="scheduling:CurrentHourTickContainer">
+                    <Rectangle Fill="{TemplateBinding Background}" Width="3" StrokeThickness="0" VerticalAlignment="Stretch"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="RowHighlightContainerStyle" TargetType="scheduling:RowHighlightContainer">
+        <Setter Property="IsHitTestVisible" Value="False"/>
+        <Setter Property="BorderBrush" Value="{telerik:Windows11Resource ResourceKey=PrimarySolidBorderBrush}"/>
+        <Setter Property="Background" Value="{telerik:Windows11Resource ResourceKey=MouseOverBackgroundBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="telerik:ZIndexManager.ZIndex" Value="15"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="scheduling:RowHighlightContainer">
+                    <Border
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Margin="{TemplateBinding Padding}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="RowSelectionContainerStyle" TargetType="scheduling:RowSelectionContainer">
+        <Setter Property="BorderBrush" Value="{telerik:Windows11Resource ResourceKey=PrimarySolidBorderBrush}"/>
+        <Setter Property="Background" Value="{telerik:Windows11Resource ResourceKey=SelectedBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Margin" Value="0 -1 0 0"/>
+        <Setter Property="telerik:ZIndexManager.ZIndex" Value="20"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="scheduling:RowSelectionContainer">
+                    <Border
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Margin="{TemplateBinding Padding}">
+                        <Border Background="{TemplateBinding Background}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="scheduling:BorderContainer" BasedOn="{StaticResource BorderContainerStyle}"/>
+    <Style TargetType="scheduling:AlternatingBorderContainer" BasedOn="{StaticResource AlternatingBorderContainerStyle}"/>
+    <Style TargetType="scheduling:SpecialSlotContainer" BasedOn="{StaticResource SpecialSlotContainerStyle}"/>
+    <Style TargetType="scheduling:GroupTickContainer" BasedOn="{StaticResource GroupTickContainerStyle}"/>
+    <Style TargetType="scheduling:MajorTickContainer" BasedOn="{StaticResource MajorTickContainerStyle}"/>
+    <Style TargetType="scheduling:MinorTickContainer" BasedOn="{StaticResource MinorTickContainerStyle}"/>
+    <Style TargetType="scheduling:CurrentHourTickContainer" BasedOn="{StaticResource CurrentHourTickContainerStyle}"/>
+    <Style TargetType="scheduling:RowHighlightContainer" BasedOn="{StaticResource RowHighlightContainerStyle}"/>
+    <Style TargetType="scheduling:RowSelectionContainer" BasedOn="{StaticResource RowSelectionContainerStyle}"/>
+    <DataTemplate x:Key="GanttDragResizeVisualCueTemplate">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" MinWidth="140"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding TargetItem.Title}" Grid.ColumnSpan="2" Foreground="{telerik:Windows11Resource ResourceKey=AccentControlForegroundBrush}" Margin="0 0 0 4"/>
+            <TextBlock telerik:LocalizationManager.ResourceKey="Start" Grid.Row="1" Margin="0 0 4 0"/>
+            <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Text="{Binding DestinationSlot.Start, Converter={StaticResource DateTimeToCurrentUICultureStringConverter}}"
+                    Foreground="{telerik:Windows11Resource ResourceKey=AccentControlForegroundBrush}"/>
+            <TextBlock telerik:LocalizationManager.ResourceKey="End" Grid.Row="2" Margin="0 0 4 0"/>
+            <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Text="{Binding DestinationSlot.End, Converter={StaticResource DateTimeToCurrentUICultureStringConverter}}"
+                    Foreground="{telerik:Windows11Resource ResourceKey=AccentControlForegroundBrush}"/>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="GanttCreateDependencyTemplate">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock telerik:LocalizationManager.ResourceKey="DrawRelationFrom"/>
+                <TextBlock Text="{Binding DestinationSlot.Source.Title}" Foreground="{telerik:Windows11Resource ResourceKey=AccentControlForegroundBrush}"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <TextBlock telerik:LocalizationManager.ResourceKey="DrawRelationTo"/>
+                <TextBlock Text="{Binding DestinationSlot.Target.Title}" Foreground="{telerik:Windows11Resource ResourceKey=AccentControlForegroundBrush}"/>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="GanttDragReorderTemplate">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 5">
+                <TextBlock telerik:LocalizationManager.ResourceKey="DraggingItem"/>
+                <TextBlock Text="{Binding TargetItem.Title}" Foreground="{telerik:Windows11Resource ResourceKey=AccentControlForegroundBrush}"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                <Grid Margin="0 2 0 0">
+                    <telerik:RadGlyph
+                            HorizontalAlignment="Left"
+                            Glyph="{StaticResource GlyphInsertUp}"
+                            Foreground="{telerik:Windows11Resource ResourceKey=AccentControlForegroundBrush}"
+                            Margin="0 0 8 0"
+                            Visibility="{Binding DestinationSlot.DropPosition, Converter={StaticResource DragDropBooleanToVisibilityConverter}, ConverterParameter=Before}"/>
+                    <telerik:RadGlyph
+                            HorizontalAlignment="Left"
+                            Glyph="{StaticResource GlyphInsertDown}"
+                            Foreground="{telerik:Windows11Resource ResourceKey=AccentControlForegroundBrush}"
+                            Margin="0 0 8 0"
+                            Visibility="{Binding DestinationSlot.DropPosition, Converter={StaticResource DragDropBooleanToVisibilityConverter}, ConverterParameter=After}"/>
+                    <telerik:RadGlyph
+                            HorizontalAlignment="Left"
+                            Glyph="{StaticResource GlyphInsertMiddle}"
+                            Foreground="{telerik:Windows11Resource ResourceKey=AccentControlForegroundBrush}"
+                            Margin="0 0 8 0"
+                            Visibility="{Binding DestinationSlot.DropPosition, Converter={StaticResource DragDropBooleanToVisibilityConverter}, ConverterParameter=Inside}"/>
+                </Grid>
+                <TextBlock Text="{Binding DestinationSlot.DropPosition}"/>
+                <TextBlock Text=":" Margin="0 0 8 0"/>
+                <TextBlock Text="{Binding DestinationSlot.GroupKey.Title}" Foreground="{telerik:Windows11Resource ResourceKey=AccentControlForegroundBrush}"/>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="DragRelationTooltipTemplate">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock telerik:LocalizationManager.ResourceKey="RelationToolTip" TextWrapping="NoWrap" TextTrimming="None"/>
+        </StackPanel>
+    </DataTemplate>
+    <ControlTemplate x:Key="GanttPresenterSplitterTemplate" TargetType="telerik:ResizeControl">
+        <Grid x:Name="Root" IsHitTestVisible="{TemplateBinding IsEnabled}">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal"/>
+                    <VisualState x:Name="MouseOver"/>
+                    <VisualState x:Name="Disabled"/>
+                </VisualStateGroup>
+                <VisualStateGroup x:Name="FocusStates">
+                    <VisualState x:Name="Unfocused"/>
+                    <VisualState x:Name="Focused">
+                        <Storyboard>
+                            <DoubleAnimation Duration="0" Storyboard.TargetName="FocusedVisual" Storyboard.TargetProperty="Opacity" To="1"/>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Border
+                    Width="{TemplateBinding Width}"
+                    VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"/>
+            <Rectangle x:Name="FocusedVisual" Fill="Transparent" Opacity="0"/>
+            <Rectangle x:Name="PART_PreviewControl"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
+                    Fill="{telerik:Windows11Resource ResourceKey=AccentBrush}"
+                    Opacity="0.2"
+                    Visibility="Collapsed"
+                    Width="6"/>
+        </Grid>
+    </ControlTemplate>
+    <Style x:Key="GanttPresenterSplitterStyle" TargetType="telerik:ResizeControl">
+        <Setter Property="Background" Value="{telerik:Windows11Resource ResourceKey=PrimarySolidBackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{telerik:Windows11Resource ResourceKey=PrimarySolidBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1 0"/>
+        <Setter Property="Width" Value="8"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="IsTabStop" Value="True"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="scheduling:ZIndexManager.ZIndex" Value="100"/>
+        <Setter Property="ShowsPreview" Value="True"/>
+        <Setter Property="Template" Value="{StaticResource GanttPresenterSplitterTemplate}"/>
+    </Style>
+    <Style x:Key="GanttPresenterHeaderSplitterStyle" TargetType="telerik:ResizeControl" BasedOn="{StaticResource GanttPresenterSplitterStyle}">
+        <Setter Property="Width" Value="6"/>
+        <Setter Property="Opacity" Value="0.5"/>
+        <Setter Property="BorderThickness" Value="0 0 1 0"/>
+        <Setter Property="Background" Value="{StaticResource SemiTransparentBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource SemiTransparentBrush}"/>
+        <Setter Property="scheduling:ZIndexManager.ZIndex" Value="100"/>
+    </Style>
+    <ControlTemplate x:Key="GanttItemsPresenterTemplate" TargetType="gantt1:GanttItemsPresenter">
+        <telerik:GanttPresenterPanel AutoSizeTimeline="{TemplateBinding AutoSizeTimeline}" Margin="{TemplateBinding Padding}">
+            <telerik:GanttPresenterPanel.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" MinWidth="3"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="Auto"/>
+            </telerik:GanttPresenterPanel.ColumnDefinitions>
+            <telerik:TreeRenderingPanel x:Name="ColumnsPanel"
+                    Orientation="Horizontal"
+                    telerik:GanttPresenterPanel.Column="1"
+                    telerik:GanttPresenterPanel.Area="Header"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Stretch"
+                    Margin="0 0 4 0"/>
+            <telerik:VirtualizedGridPanel x:Name="CellsPanel"
+                    telerik:GanttPresenterPanel.Column="1"
+                    telerik:GanttPresenterPanel.Area="Content"
+                    Margin="0 -1 4 0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    VerticalOffset="{Binding VerticalOffset, ElementName=FrozenCellsPanel, Mode=TwoWay}"
+                    HorizontalOffset="{Binding HorizontalOffset, ElementName=ColumnsPanel, Mode=TwoWay}"/>
+            <telerik:TreeRenderingPanel x:Name="FrozenColumnsPanel"
+                    Orientation="Horizontal"
+                    telerik:GanttPresenterPanel.Column="0"
+                    telerik:GanttPresenterPanel.Area="Header"
+                    HorizontalAlignment="Stretch"
+                    SnapsToDevicePixels="True"
+                    VerticalAlignment="Stretch"/>
+            <telerik:VirtualizedGridPanel x:Name="FrozenCellsPanel"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    SnapsToDevicePixels="True"
+                    telerik:GanttPresenterPanel.Column="0"
+                    telerik:GanttPresenterPanel.Area="Content"
+                    Margin="0 -1 0 0"/>
+            <ScrollBar
+                    telerik:GanttPresenterPanel.Column="1"
+                    telerik:GanttPresenterPanel.Area="ScrollBar"
+                    Orientation="Horizontal"
+                    Minimum="0"
+                    Maximum="{Binding ExtentWidth, ElementName=ColumnsPanel}"
+                    Value="{Binding HorizontalOffset, ElementName=ColumnsPanel, Mode=TwoWay}"
+                    ViewportSize="{Binding ViewportWidth, ElementName=ColumnsPanel}"
+                    SmallChange="40"
+                    LargeChange="{Binding ViewportWidth, ElementName=ColumnsPanel}"
+                    Visibility="{Binding CalculatedHorizontalScrollBarVisibility, ElementName=ColumnsPanel}"
+                    Margin="0 0 8 0"/>
+            <telerik:ResizeControl telerik:GanttPresenterPanel.Column="1" telerik:GanttPresenterPanel.Area="Splitter" Style="{StaticResource GanttPresenterSplitterStyle}"/>
+            <telerik:LogicalCanvasPanel x:Name="TimeRulerPanel"
+                    telerik:GanttPresenterPanel.Column="2"
+                    telerik:GanttPresenterPanel.Area="Header"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Left"
+                    HorizontalOffset="{Binding HorizontalOffset, ElementName=EventsPanel, Mode=TwoWay}"/>
+            <telerik:LogicalCanvasPanel x:Name="EventsPanel"
+                    telerik:GanttPresenterPanel.Column="2"
+                    telerik:GanttPresenterPanel.Area="Content"
+                    VerticalOffset="{Binding VerticalOffset, ElementName=CellsPanel, Mode=TwoWay}"
+                    Background="Transparent"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Margin="-1 0 0 0"/>
+            <ScrollBar
+                    telerik:GanttPresenterPanel.Column="2"
+                    telerik:GanttPresenterPanel.Area="ScrollBar"
+                    Orientation="Horizontal"
+                    Minimum="0"
+                    Maximum="{Binding ExtentWidth, ElementName=EventsPanel}"
+                    Value="{Binding HorizontalOffset, ElementName=EventsPanel, Mode=TwoWay}"
+                    ViewportSize="{Binding ViewportWidth, ElementName=EventsPanel}"
+                    SmallChange="20"
+                    LargeChange="{Binding ViewportWidth, ElementName=EventsPanel}"
+                    Visibility="{Binding CalculatedHorizontalScrollBarVisibility, ElementName=EventsPanel}"
+                    Margin="-1 0 0 0"/>
+            <ScrollBar
+                    telerik:GanttPresenterPanel.Column="3"
+                    telerik:GanttPresenterPanel.Area="Content"
+                    Orientation="Vertical"
+                    Minimum="0"
+                    Maximum="{Binding ExtentHeight, ElementName=CellsPanel}"
+                    Value="{Binding VerticalOffset, ElementName=CellsPanel, Mode=TwoWay}"
+                    ViewportSize="{Binding ViewportHeight, ElementName=CellsPanel}"
+                    Visibility="{Binding CalculatedVerticalScrollBarVisibility, ElementName=CellsPanel}"
+                    SmallChange="10"
+                    LargeChange="{Binding ViewportHeight, ElementName=CellsPanel}"/>
+        </telerik:GanttPresenterPanel>
+    </ControlTemplate>
+    <Style x:Key="GanttItemsPresenterStyle" TargetType="gantt1:GanttItemsPresenter">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Padding" Value="-1 -1 0 0"/>
+        <Setter Property="Template" Value="{StaticResource GanttItemsPresenterTemplate}"/>
+    </Style>
+    <ControlTemplate x:Key="GanttDragResizeVisualCueControlTemplate" TargetType="gantt1:GanttDragResizeVisualCue">
+        <Grid>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="EffectStates">
+                    <VisualState x:Name="None">
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NoneEffect" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Visible</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Move"/>
+                    <VisualState x:Name="Copy">
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CopyEffect" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Visible</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Link">
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LinkEffect" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Visible</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Scroll">
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ScrollEffect" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Visible</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Border
+                    Padding="{TemplateBinding BorderThickness}"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding helpers:ThemeHelper.CornerRadius}"/>
+            <Grid Margin="{TemplateBinding Padding}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <telerik:RadGlyph x:Name="NoneEffect"
+                        Visibility="Collapsed"
+                        Glyph="{StaticResource GlyphCancel}"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        Foreground="{telerik1:Windows11Resource ResourceKey=ValidationBrush}"
+                        Margin="0 2 8 0"/>
+                <telerik:RadGlyph x:Name="CopyEffect"
+                        Visibility="Collapsed"
+                        Glyph="{StaticResource GlyphPlus}"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        Foreground="{TemplateBinding Foreground}"
+                        Margin="0 2 8 0"/>
+                <telerik:RadGlyph x:Name="LinkEffect"
+                        Visibility="Collapsed"
+                        Glyph="{StaticResource GlyphLinkHorizontal}"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        Foreground="{TemplateBinding Foreground}"
+                        Margin="0 2 8 0"/>
+                <telerik:RadGlyph x:Name="ScrollEffect"
+                        Visibility="Collapsed"
+                        Glyph="{StaticResource GlyphArrowsKpi}"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        Foreground="{TemplateBinding Foreground}"
+                        Margin="0 2 8 0"/>
+                <ContentControl x:Name="Content"
+                        Grid.Column="1"
+                        Foreground="{TemplateBinding Foreground}"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Grid>
+        </Grid>
+    </ControlTemplate>
+    <Style x:Key="GanttDragResizeVisualCueStyle" TargetType="gantt1:GanttDragResizeVisualCue">
+        <Setter Property="helpers:ThemeHelper.CornerRadius" Value="{telerik1:Windows11Resource ResourceKey=CornerRadius}"/>
+        <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=AccentControlForegroundBrush}"/>
+        <Setter Property="Background" Value="{telerik1:Windows11Resource ResourceKey=AccentSelectedBrush}"/>
+        <Setter Property="BorderBrush" Value="{telerik1:Windows11Resource ResourceKey=AccentSelectedBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="16 8 8 8"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="MinHeight" Value="32"/>
+        <Setter Property="FontSize" Value="{telerik:Windows11Resource ResourceKey=FontSize}"/>
+        <Setter Property="FontFamily" Value="{telerik:Windows11Resource ResourceKey=FontFamily}"/>
+        <Setter Property="CueTemplateSelector">
+            <Setter.Value>
+                <gantt1:GanttDragVisualCueContentTemplateSelector
+                        DragTemplate="{StaticResource GanttDragResizeVisualCueTemplate}"
+                        ResizeTemplate="{StaticResource GanttDragResizeVisualCueTemplate}"
+                        CreateDependencyTemplate="{StaticResource GanttCreateDependencyTemplate}"
+                        DragReorderTemplate="{StaticResource GanttDragReorderTemplate}"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template" Value="{StaticResource GanttDragResizeVisualCueControlTemplate}"/>
+    </Style>
+    <Style x:Key="RadGanttViewStyle" TargetType="gantt:RadGanttView">
+        <Setter Property="telerik:ScrollingSettingsBehavior.IsEnabled" Value="True"/>
+        <Setter Property="telerik:ScrollingSettingsBehavior.ScrollAreaPadding" Value="30"/>
+        <Setter Property="telerik:ScrollingSettingsBehavior.ScrollStep" Value="5"/>
+        <Setter Property="telerik:ScrollingSettingsBehavior.ScrollStepTime" Value="00:00:00.01"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="Background" Value="{telerik:Windows11Resource ResourceKey=PrimarySolidBackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{telerik:Windows11Resource ResourceKey=PrimarySolidBorderBrush}"/>
+        <Setter Property="FontFamily" Value="{telerik:Windows11Resource ResourceKey=FontFamily}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="GapBetweenRows" Value="0"/>
+        <Setter Property="GapBetweenColumns" Value="0"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="gantt:RadGanttView">
+                    <Border x:Name="BorderVisual" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                        <gantt1:GanttItemsPresenter x:Name="ItemsPresenter" Margin="{TemplateBinding Padding}" AutoSizeTimeline="{TemplateBinding AutoSizeTimeline}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="ItemsPresenter" Property="Opacity" Value="{telerik1:Windows11Resource ResourceKey=DisabledOpacity}"/>
+                            <Setter TargetName="BorderVisual" Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helpers:ThemeHelper.DisabledBrush)}"/>
+                            <Setter TargetName="BorderVisual" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helpers:ThemeHelper.DisabledBackgroundBrush)}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="DropReorderHighlightContainerStyle" TargetType="gantt1:DropReorderHighlightContainer">
+        <Setter Property="Height" Value="8"/>
+        <Setter Property="Margin" Value="0 -4"/>
+        <Setter Property="IsHitTestVisible" Value="False"/>
+        <Setter Property="scheduling:ZIndexManager.ZIndex" Value="105"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Background" Value="{telerik1:Windows11Resource ResourceKey=AccentSelectedBrush}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="gantt1:DropReorderHighlightContainer">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="Doted">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0:0:0" Storyboard.TargetName="DotedElement" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Ellipse x:Name="DotedElement"
+                                Visibility="Collapsed"
+                                Stroke="{TemplateBinding Background}"
+                                Fill="Transparent"
+                                StrokeThickness="2"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Width="8"
+                                Height="8"/>
+                        <Rectangle Grid.Column="1" Margin="-2 0 0 0" Fill="{TemplateBinding Background}" RadiusX="2" RadiusY="2" Height="2" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="DragResizeSlotHighlightContainerStyle" TargetType="gantt1:DragResizeSlotHighlightContainer">
+        <Setter Property="helpers:ThemeHelper.CornerRadius" Value="{telerik1:Windows11Resource ResourceKey=CornerRadius}"/>
+        <Setter Property="IsHitTestVisible" Value="False"/>
+        <Setter Property="Foreground" Value="{telerik1:Windows11Resource ResourceKey=AccentSelectedBrush}"/>
+        <Setter Property="Background" Value="{telerik:Windows11Resource ResourceKey=AccentBrush}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="scheduling:ZIndexManager.ZIndex" Value="70"/>
+        <Setter Property="Padding" Value="4 0"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="MinHeight" Value="22"/>
+        <Setter Property="Opacity" Value="0.3"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="gantt1:DragResizeSlotHighlightContainer">
+                    <Grid>
+                        <Border
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="{TemplateBinding helpers:ThemeHelper.CornerRadius}"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="DragResizeMilestoneSlotHighlightContainerStyle" TargetType="gantt1:DragResizeMilestoneSlotHighlightContainer">
+        <Setter Property="Background" Value="{telerik1:Windows11Resource ResourceKey=AccentSelectedBrush}"/>
+        <Setter Property="Width" Value="16"/>
+        <Setter Property="Height" Value="16"/>
+        <Setter Property="Margin" Value="-11 0"/>
+        <Setter Property="IsHitTestVisible" Value="False"/>
+        <Setter Property="telerik:TouchManager.DragStartTrigger" Value="TouchMove"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="scheduling:ZIndexManager.ZIndex" Value="45"/>
+        <Setter Property="Opacity" Value="0.2"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="gantt1:DragResizeMilestoneSlotHighlightContainer">
+                    <Grid RenderTransformOrigin="0.5 0.5">
+                        <Grid.RenderTransform>
+                            <RotateTransform Angle="45"/>
+                        </Grid.RenderTransform>
+                        <Rectangle Fill="{TemplateBinding Background}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" RadiusX="4" RadiusY="4"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="DragResizeSummarySlotHighlightContainerStyle" TargetType="gantt1:DragResizeSummarySlotHighlightContainer">
+        <Setter Property="Background" Value="{telerik:Windows11Resource ResourceKey=AccentBrush}"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Margin" Value="-4 12 -4 0"/>
+        <Setter Property="scheduling:ZIndexManager.ZIndex" Value="45"/>
+        <Setter Property="IsHitTestVisible" Value="False"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Opacity" Value="0.2"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="gantt1:DragResizeSummarySlotHighlightContainer">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Path x:Name="LeftMarker" Data="M0,0L14,0 0,14z" Stretch="Fill" Fill="{TemplateBinding Background}" HorizontalAlignment="Left" Width="10" Height="10" Margin="0 0 0 -16"/>
+                        <Border x:Name="BackgroundBorder" Grid.ColumnSpan="3" Background="{TemplateBinding Background}" CornerRadius="2 2 0 0" Height="10"/>
+                        <Path x:Name="RightMarker"
+                                Grid.Column="2"
+                                Data="M0,0L462,0 462,14z"
+                                Stretch="Fill"
+                                Fill="{TemplateBinding Background}"
+                                HorizontalAlignment="Right"
+                                Width="10"
+                                Height="10"
+                                Margin="0 0 0 -16"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <ControlTemplate x:Key="RelationContainerTemplate" TargetType="gantt1:RelationContainer">
+        <Grid Background="{TemplateBinding Background}">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal"/>
+                    <VisualState x:Name="MouseOver">
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Duration="0:0:0" Storyboard.TargetName="ArrowPath" Storyboard.TargetProperty="Stroke">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{telerik1:Windows11Resource ResourceKey=IconBrush}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Duration="0:0:0" Storyboard.TargetName="EndArrow" Storyboard.TargetProperty="Fill">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{telerik1:Windows11Resource ResourceKey=IconBrush}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Duration="0:0:0" Storyboard.TargetName="HighlightArrowPath" Storyboard.TargetProperty="Stroke">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{telerik1:Windows11Resource ResourceKey=IconBrush}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Duration="0:0:0" Storyboard.TargetName="HighlightEndArrow" Storyboard.TargetProperty="Fill">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{telerik1:Windows11Resource ResourceKey=IconBrush}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+                <VisualStateGroup x:Name="HighlightStates">
+                    <VisualState x:Name="NotHighlighted"/>
+                    <VisualState x:Name="Highlighted">
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Duration="0:0:0" Storyboard.TargetName="HighlightArrowPath" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Visible</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Duration="0:0:0" Storyboard.TargetName="HighlightEndArrow" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Visible</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Duration="0:0:0" Storyboard.TargetName="ArrowPath" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Collapsed</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Duration="0:0:0" Storyboard.TargetName="EndArrow" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Collapsed</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Path Data="{Binding PathData}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="5" StrokeEndLineCap="Square" StrokeStartLineCap="Square"/>
+            <Path x:Name="ArrowPath"
+                    Data="{Binding PathData}"
+                    Stroke="{TemplateBinding Foreground}"
+                    StrokeThickness="{TemplateBinding ArrowThickness}"
+                    StrokeEndLineCap="Square"
+                    StrokeStartLineCap="Square"/>
+            <Path x:Name="HighlightArrowPath"
+                    Visibility="Collapsed"
+                    Data="{Binding PathData}"
+                    Stroke="{telerik1:Windows11Resource ResourceKey=ValidationBrush}"
+                    StrokeThickness="{TemplateBinding ArrowThickness}"
+                    StrokeEndLineCap="Square"
+                    StrokeStartLineCap="Square"/>
+            <Grid x:Name="EndArrowHost" Height="7" Margin="0 -3" Width="5" RenderTransformOrigin="1, .5">
+                <Path x:Name="EndArrow" Data="M0.50,0.50 L4.50,3.51 L0.50,6.50 z" Fill="{TemplateBinding Foreground}" Stretch="None"/>
+                <Path x:Name="HighlightEndArrow"
+                        Visibility="Collapsed"
+                        Data="M0.50,0.50 L4.50,3.51 L0.50,6.50 z"
+                        Fill="{telerik1:Windows11Resource ResourceKey=ValidationBrush}"
+                        Stretch="None"/>
+            </Grid>
+        </Grid>
+    </ControlTemplate>
+    <Style x:Key="RelationContainerStyle" TargetType="gantt1:RelationContainer">
+        <Setter Property="Foreground" Value="{telerik1:Windows11Resource ResourceKey=FocusBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="telerik:ZIndexManager.ZIndex" Value="20"/>
+        <Setter Property="ArrowThickness" Value="1"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="SummaryContainerMargin" Value="-5 0"/>
+        <Setter Property="Margin" Value="0 19 0 20"/>
+        <Setter Property="MilestoneContainerMargin" Value="-11 0"/>
+        <Setter Property="MinEdgeLength" Value="14"/>
+        <Setter Property="Template" Value="{StaticResource RelationContainerTemplate}"/>
+    </Style>
+    <Style x:Key="DragRelationSlotClontainerStyle" TargetType="gantt1:DragRelationSlotContainer">
+        <Setter Property="Foreground" Value="{telerik1:Windows11Resource ResourceKey=FocusBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="ArrowThickness" Value="1"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="telerik:ZIndexManager.ZIndex" Value="10"/>
+        <Setter Property="IsHitTestVisible" Value="False"/>
+        <Setter Property="Margin" Value="0 19 0 20"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="gantt1:DragRelationSlotContainer">
+                    <Grid Background="{TemplateBinding Background}">
+                        <Path x:Name="ArrowPath"
+                                Data="{Binding PathData}"
+                                Stroke="{TemplateBinding Foreground}"
+                                StrokeThickness="{TemplateBinding ArrowThickness}"
+                                StrokeEndLineCap="Square"
+                                StrokeStartLineCap="Square"/>
+                        <Grid x:Name="EndArrowHost" Height="7" Margin="0 -3" Width="5" RenderTransformOrigin="1, .5">
+                            <Path x:Name="EndArrow" Data="M0.50,0.50 L4.50,3.51 L0.50,6.50 z" Fill="{TemplateBinding Foreground}" Stretch="None"/>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <ControlTemplate x:Key="DependencyIndicatorTemplate" TargetType="gantt1:DependencyIndicator">
+        <Grid>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal"/>
+                    <VisualState x:Name="MouseOver">
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Duration="0:0:0" Storyboard.TargetName="Visual" Storyboard.TargetProperty="Fill">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{telerik:Windows11Resource ResourceKey=AccentBrush}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Duration="0:0:0" Storyboard.TargetName="Visual" Storyboard.TargetProperty="Stroke">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{telerik1:Windows11Resource ResourceKey=FocusBrush}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="DragOver">
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Duration="0:0:0" Storyboard.TargetName="Visual" Storyboard.TargetProperty="Fill">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{telerik:Windows11Resource ResourceKey=AccentBrush}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Duration="0:0:0" Storyboard.TargetName="Visual" Storyboard.TargetProperty="Stroke">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{telerik1:Windows11Resource ResourceKey=FocusBrush}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <DoubleAnimation Duration="0" Storyboard.TargetName="Visual" Storyboard.TargetProperty="StrokeThickness" To="2"/>
+                            <DoubleAnimation Duration="0:0:0.1" To="1.2" Storyboard.TargetName="EllipseScale" Storyboard.TargetProperty="ScaleX"/>
+                            <DoubleAnimation Duration="0:0:0.1" To="1.2" Storyboard.TargetName="EllipseScale" Storyboard.TargetProperty="ScaleY"/>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Visual" Storyboard.TargetProperty="Margin">
+                                <DiscreteObjectKeyFrame KeyTime="0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Thickness>-1 0</Thickness>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled"/>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Ellipse x:Name="Visual"
+                    StrokeThickness="1"
+                    Stroke="{TemplateBinding BorderBrush}"
+                    Fill="{TemplateBinding Background}"
+                    Cursor="Hand"
+                    VerticalAlignment="Center"
+                    RenderTransformOrigin="0.5 0.5"
+                    Width="12"
+                    Height="12">
+                <Ellipse.RenderTransform>
+                    <ScaleTransform x:Name="EllipseScale"/>
+                </Ellipse.RenderTransform>
+                <telerik:ToolTipManager.ToolTip>
+                    <ToolTip ContentTemplate="{StaticResource DragRelationTooltipTemplate}"/>
+                </telerik:ToolTipManager.ToolTip>
+            </Ellipse>
+        </Grid>
+    </ControlTemplate>
+    <Style x:Key="DependencyIndicatorStyle" TargetType="gantt1:DependencyIndicator">
+        <Setter Property="Template" Value="{StaticResource DependencyIndicatorTemplate}"/>
+        <Setter Property="telerik:TouchManager.DragStartTrigger" Value="TapAndHold"/>
+        <Setter Property="Background" Value="{telerik:Windows11Resource ResourceKey=PrimarySolidBackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{telerik1:Windows11Resource ResourceKey=StrokeBrush}"/>
+    </Style>
+    <ControlTemplate x:Key="EventDecoratorContainerTemplate" TargetType="gantt1:EventDecoratorContainer">
+        <Grid>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="ItemTypeStates">
+                    <VisualState x:Name="Normal"/>
+                    <VisualState x:Name="Summary"/>
+                    <VisualState x:Name="Milestone">
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Duration="0:0:0" Storyboard.TargetName="ResizeStart" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Collapsed</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Duration="0:0:0" Storyboard.TargetName="ResizeEnd" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Collapsed</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Rectangle x:Name="ResizeStart"
+                    Width="6"
+                    HorizontalAlignment="Left"
+                    Fill="Transparent"
+                    Cursor="SizeWE"
+                    scheduling:DragDropElement.Type="ResizeStart"
+                    telerik:TouchManager.DragStartTrigger="TapHoldAndMove"/>
+            <Rectangle x:Name="ResizeEnd"
+                    Width="6"
+                    HorizontalAlignment="Right"
+                    Fill="Transparent"
+                    Cursor="SizeWE"
+                    scheduling:DragDropElement.Type="ResizeEnd"
+                    telerik:TouchManager.DragStartTrigger="TapHoldAndMove"/>
+            <gantt1:DependencyIndicator x:Name="CreateDependencyFromStart"
+                    telerik:TouchManager.DragStartTrigger="TapAndHold"
+                    scheduling:DragDropElement.Type="LinkStart"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource DependencyIndicatorStyle}"
+                    Margin="-10 -1 0 0"/>
+            <gantt1:DependencyIndicator x:Name="CreateDependencyFromEnd"
+                    telerik:TouchManager.DragStartTrigger="TapAndHold"
+                    scheduling:DragDropElement.Type="LinkEnd"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource DependencyIndicatorStyle}"
+                    Margin="0 -1 -10 0"/>
+        </Grid>
+    </ControlTemplate>
+    <Style x:Key="EventDecoratorContainerStyle" TargetType="gantt1:EventDecoratorContainer">
+        <Setter Property="telerik:ZIndexManager.ZIndex" Value="45"/>
+        <Setter Property="SummaryContainerMargin" Value="-6 0"/>
+        <Setter Property="MilestoneContainerMargin" Value="-12 0"/>
+        <Setter Property="Margin" Value="-2 0"/>
+        <Setter Property="Template" Value="{StaticResource EventDecoratorContainerTemplate}"/>
+    </Style>
+    <DataTemplate x:Key="EventToolTipTemplate">
+        <Grid Margin="8 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" MinWidth="130"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock
+                    Text="{Binding Title}"
+                    Grid.ColumnSpan="2"
+                    TextWrapping="NoWrap"
+                    TextTrimming="None"
+                    Margin="0 0 0 4"
+                    Foreground="{telerik:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+            <TextBlock telerik:LocalizationManager.ResourceKey="Start" Grid.Row="1" Margin="0 0 3 0" Foreground="{telerik:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+            <TextBlock
+                    Text="{Binding Start, Converter={StaticResource DateTimeToCurrentUICultureStringConverter}}"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    TextWrapping="NoWrap"
+                    TextTrimming="None"
+                    Foreground="{telerik:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+            <TextBlock telerik:LocalizationManager.ResourceKey="End" Grid.Row="2" Margin="0 0 3 0" Foreground="{telerik:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+            <TextBlock
+                    Text="{Binding End, Converter={StaticResource DateTimeToCurrentUICultureStringConverter}}"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    TextWrapping="NoWrap"
+                    TextTrimming="None"
+                    Foreground="{telerik:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+        </Grid>
+    </DataTemplate>
+    <ControlTemplate x:Key="EventContainerTemplate" TargetType="gantt1:EventContainer">
+        <Grid>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal"/>
+                    <VisualState x:Name="MouseOver">
+                        <Storyboard>
+                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="MouseOverVisual"/>
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled"/>
+                    <VisualState x:Name="MouseOverHighlighted">
+                        <Storyboard>
+                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="MouseOverHighlightedVisual"/>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+                <VisualStateGroup x:Name="SelectionStates">
+                    <VisualState x:Name="Unselected"/>
+                    <VisualState x:Name="Selected">
+                        <Storyboard>
+                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="SelectedVisual"/>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+                <VisualStateGroup x:Name="FocusStates">
+                    <VisualState x:Name="Focused"/>
+                    <VisualState x:Name="Unfocused"/>
+                </VisualStateGroup>
+                <VisualStateGroup x:Name="HighlightStates">
+                    <VisualState x:Name="NotHighlighted"/>
+                    <VisualState x:Name="Highlighted">
+                        <Storyboard>
+                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="HighlightVisual"/>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <telerik:ToolTipManager.ToolTip>
+                <ToolTip ContentTemplate="{TemplateBinding ToolTipTemplate}" Content="{Binding OriginalEvent}"/>
+            </telerik:ToolTipManager.ToolTip>
+            <Border x:Name="Background"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding helpers:ThemeHelper.CornerRadius}"/>
+            <Border x:Name="SelectedVisual"
+                    Background="{TemplateBinding helpers:ThemeHelper.CheckedBackgroundBrush}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding helpers:ThemeHelper.CornerRadius}"
+                    Opacity="0"/>
+            <Border x:Name="HighlightVisual"
+                    Background="{telerik1:Windows11Resource ResourceKey=ValidationBrush}"
+                    BorderBrush="{telerik1:Windows11Resource ResourceKey=ValidationBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding helpers:ThemeHelper.CornerRadius}"
+                    Opacity="0"/>
+            <Border x:Name="MouseOverVisual"
+                    Background="{TemplateBinding helpers:ThemeHelper.MouseOverBackgroundBrush}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding helpers:ThemeHelper.CornerRadius}"
+                    Opacity="0"/>
+            <Border x:Name="MouseOverHighlightedVisual"
+                    Background="{TemplateBinding helpers:ThemeHelper.MouseOverBackgroundBrush}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding helpers:ThemeHelper.CornerRadius}"
+                    Opacity="0"/>
+            <Grid Grid.Column="1" Margin="{TemplateBinding Padding}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock x:Name="txtBlock" Text="{Binding Title}" FontSize="{telerik:Windows11Resource ResourceKey=FontSize}" VerticalAlignment="Stretch"/>
+                <telerik:ProgressPresenter x:Name="ProgressPresenter" Grid.Row="1" Height="2" Margin="0 -4 0 0" HorizontalAlignment="Stretch" Progress="{Binding Progress}" Orientation="Horizontal">
+                    <Rectangle x:Name="ProgressPresenterRectangle"
+                            Opacity="0.7"
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Stretch"
+                            Fill="{telerik:Windows11Resource ResourceKey=AccentControlForegroundBrush}"/>
+                </telerik:ProgressPresenter>
+            </Grid>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=DisabledForegroundBrush}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <Style x:Key="EventContainerStyle" TargetType="gantt1:EventContainer">
+        <Setter Property="helpers:ThemeHelper.MouseOverBackgroundBrush" Value="{telerik1:Windows11Resource ResourceKey=AccentMouseOverBrush}"/>
+        <Setter Property="helpers:ThemeHelper.CheckedBackgroundBrush" Value="{telerik:Windows11Resource ResourceKey=AccentBrush}"/>
+        <Setter Property="helpers:ThemeHelper.CornerRadius" Value="{telerik1:Windows11Resource ResourceKey=CornerRadius}"/>
+        <Setter Property="scheduling:DragDropElement.Type" Value="Drag"/>
+        <Setter Property="telerik:TouchManager.DragStartTrigger" Value="TapAndHold"/>
+        <Setter Property="telerik:ZIndexManager.ZIndex" Value="40"/>
+        <Setter Property="FontFamily" Value="{telerik:Windows11Resource ResourceKey=FontFamily}"/>
+        <Setter Property="FontSize" Value="{telerik:Windows11Resource ResourceKey=FontSize}"/>
+        <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=AccentControlForegroundBrush}"/>
+        <Setter Property="Background" Value="{telerik1:Windows11Resource ResourceKey=AccentSelectedBrush}"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="MinHeight" Value="22"/>
+        <Setter Property="Padding" Value="4 0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="ToolTipTemplate" Value="{StaticResource EventToolTipTemplate}"/>
+        <Setter Property="Template" Value="{StaticResource EventContainerTemplate}"/>
+    </Style>
+    <DataTemplate x:Key="MilestoneToolTipTemplate">
+        <Grid Margin="8 0">
+            <TextBlock Text="{Binding Start, Converter={StaticResource DateTimeToCurrentUICultureStringConverter}}" Margin="0" TextWrapping="NoWrap" TextTrimming="None"/>
+        </Grid>
+    </DataTemplate>
+    <ControlTemplate x:Key="MilestoneContainerTemplate" TargetType="gantt1:MilestoneContainer">
+        <Grid>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal"/>
+                    <VisualState x:Name="MouseOver">
+                        <Storyboard>
+                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="MouseOverVisual"/>
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="MouseOverHighlighted">
+                        <Storyboard>
+                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="MouseOverHighlightedVisual"/>
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled"/>
+                </VisualStateGroup>
+                <VisualStateGroup x:Name="SelectionStates">
+                    <VisualState x:Name="Unselected"/>
+                    <VisualState x:Name="Selected">
+                        <Storyboard>
+                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="SelectedVisual"/>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+                <VisualStateGroup x:Name="FocusStates">
+                    <VisualState x:Name="Focused"/>
+                    <VisualState x:Name="Unfocused"/>
+                </VisualStateGroup>
+                <VisualStateGroup x:Name="HighlightStates">
+                    <VisualState x:Name="NotHighlighted"/>
+                    <VisualState x:Name="Highlighted">
+                        <Storyboard>
+                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="HighlightVisual"/>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Grid RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                    <RotateTransform Angle="45"/>
+                </Grid.RenderTransform>
+                <telerik:ToolTipManager.ToolTip>
+                    <ToolTip ContentTemplate="{TemplateBinding ToolTipTemplate}" Content="{Binding OriginalEvent}"/>
+                </telerik:ToolTipManager.ToolTip>
+                <Rectangle
+                        Fill="{TemplateBinding Background}"
+                        Stroke="{TemplateBinding BorderBrush}"
+                        StrokeThickness="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BorderThickness.Left}"
+                        Width="16"
+                        Height="16"
+                        RadiusX="4"
+                        RadiusY="4"/>
+                <Rectangle x:Name="SelectedVisual"
+                        Fill="{TemplateBinding helpers:ThemeHelper.CheckedBackgroundBrush}"
+                        Stroke="{TemplateBinding helpers:ThemeHelper.CheckedBackgroundBrush}"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                        StrokeThickness="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BorderThickness.Left}"
+                        Width="16"
+                        Height="16"
+                        RadiusX="4"
+                        RadiusY="4"
+                        Opacity="0"/>
+                <Rectangle x:Name="HighlightVisual"
+                        Fill="{telerik1:Windows11Resource ResourceKey=ValidationBrush}"
+                        StrokeThickness="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BorderThickness.Left}"
+                        Width="16"
+                        Height="16"
+                        RadiusX="4"
+                        RadiusY="4"
+                        Opacity="0"/>
+                <Rectangle x:Name="MouseOverVisual"
+                        Fill="{TemplateBinding helpers:ThemeHelper.MouseOverBackgroundBrush}"
+                        Stroke="{TemplateBinding helpers:ThemeHelper.MouseOverBackgroundBrush}"
+                        StrokeThickness="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BorderThickness.Left}"
+                        Width="16"
+                        Height="16"
+                        RadiusX="4"
+                        RadiusY="4"
+                        Opacity="0"/>
+                <Rectangle x:Name="MouseOverHighlightedVisual"
+                        Fill="{TemplateBinding helpers:ThemeHelper.MouseOverBackgroundBrush}"
+                        Stroke="{TemplateBinding helpers:ThemeHelper.MouseOverBackgroundBrush}"
+                        StrokeThickness="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BorderThickness.Left}"
+                        Width="16"
+                        Height="16"
+                        RadiusX="4"
+                        RadiusY="4"
+                        Opacity="0"/>
+            </Grid>
+        </Grid>
+    </ControlTemplate>
+    <Style x:Key="MilestoneContainerStyle" TargetType="gantt1:MilestoneContainer">
+        <Setter Property="helpers:ThemeHelper.MouseOverBackgroundBrush" Value="{telerik1:Windows11Resource ResourceKey=AccentMouseOverBrush}"/>
+        <Setter Property="helpers:ThemeHelper.CheckedBackgroundBrush" Value="{telerik1:Windows11Resource ResourceKey=AccentSelectedBrush}"/>
+        <Setter Property="scheduling:DragDropElement.Type" Value="Drag"/>
+        <Setter Property="telerik:TouchManager.DragStartTrigger" Value="TapAndHold"/>
+        <Setter Property="telerik:ZIndexManager.ZIndex" Value="40"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Background" Value="{telerik:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{telerik:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Margin" Value="-11 0"/>
+        <Setter Property="ToolTipTemplate" Value="{StaticResource MilestoneToolTipTemplate}"/>
+        <Setter Property="Template" Value="{StaticResource MilestoneContainerTemplate}"/>
+    </Style>
+    <DataTemplate x:Key="SummaryToolTipTemplate">
+        <StackPanel Orientation="Horizontal" Margin="8 0">
+            <TextBlock Text="{Binding Start, Converter={StaticResource DateTimeToCurrentUICultureStringConverter}}" TextWrapping="NoWrap" TextTrimming="None"/>
+            <TextBlock Text="-"/>
+            <TextBlock Text="{Binding End, Converter={StaticResource DateTimeToCurrentUICultureStringConverter}}" TextWrapping="NoWrap" TextTrimming="None"/>
+        </StackPanel>
+    </DataTemplate>
+    <ControlTemplate x:Key="SummaryContainerTemplate" TargetType="gantt1:SummaryContainer">
+        <Grid>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal"/>
+                    <VisualState x:Name="MouseOver">
+                        <Storyboard>
+                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="LeftMarkerMouseOver"/>
+                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackgroundBorderMouseOver"/>
+                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="RightMarkerMouseOver"/>
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="MouseOverHighlighted">
+                        <Storyboard>
+                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="LeftMarkerMouseOver"/>
+                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackgroundBorderMouseOver"/>
+                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="RightMarkerMouseOver"/>
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled"/>
+                </VisualStateGroup>
+                <VisualStateGroup x:Name="SelectionStates">
+                    <VisualState x:Name="Unselected"/>
+                    <VisualState x:Name="Selected">
+                        <Storyboard>
+                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="LeftMarkerSelected"/>
+                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackgroundBorderSelected"/>
+                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="RightMarkerSelected"/>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+                <VisualStateGroup x:Name="FocusStates">
+                    <VisualState x:Name="Focused"/>
+                    <VisualState x:Name="Unfocused"/>
+                </VisualStateGroup>
+                <VisualStateGroup x:Name="HighlightStates">
+                    <VisualState x:Name="NotHighlighted"/>
+                    <VisualState x:Name="Highlighted">
+                        <Storyboard>
+                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="LeftMarkerHighlighted"/>
+                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackgroundBorderHighlighted"/>
+                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="RightMarkerHighlighted"/>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <telerik:ToolTipManager.ToolTip>
+                <ToolTip ContentTemplate="{TemplateBinding ToolTipTemplate}" Content="{Binding OriginalEvent}"/>
+            </telerik:ToolTipManager.ToolTip>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Border Background="Transparent" Grid.ColumnSpan="3" IsHitTestVisible="True" Margin="0" VerticalAlignment="Top" CornerRadius="2 2 0 0" Height="10"/>
+            <Path x:Name="LeftMarker" Data="M0,0L14,0 0,14z" Stretch="Fill" Fill="{TemplateBinding Background}" Width="10" Height="10" Margin="0 0 0 -16" HorizontalAlignment="Left"/>
+            <Path x:Name="LeftMarkerHighlighted"
+                    Data="M0,0L14,0 0,14z"
+                    Stretch="Fill"
+                    Fill="{telerik1:Windows11Resource ResourceKey=ValidationBrush}"
+                    Width="10"
+                    Height="10"
+                    Margin="0 0 0 -16"
+                    HorizontalAlignment="Left"
+                    Opacity="0"/>
+            <Path x:Name="LeftMarkerMouseOver"
+                    Data="M0,0L14,0 0,14z"
+                    Stretch="Fill"
+                    Fill="{TemplateBinding helpers:ThemeHelper.MouseOverBackgroundBrush}"
+                    Width="10"
+                    Height="10"
+                    Margin="0 0 0 -16"
+                    HorizontalAlignment="Left"
+                    Opacity="0"/>
+            <Path x:Name="LeftMarkerSelected"
+                    Data="M0,0L14,0 0,14z"
+                    Stretch="Fill"
+                    Fill="{TemplateBinding helpers:ThemeHelper.CheckedBackgroundBrush}"
+                    Width="10"
+                    Height="10"
+                    Margin="0 0 0 -16"
+                    HorizontalAlignment="Left"
+                    Opacity="0"/>
+            <Border x:Name="BackgroundBorder" Grid.ColumnSpan="3" Height="10" Background="{TemplateBinding Background}" CornerRadius="2 2 0 0"/>
+            <Border x:Name="BackgroundBorderHighlighted"
+                    Grid.ColumnSpan="3"
+                    Height="10"
+                    Background="{telerik1:Windows11Resource ResourceKey=ValidationBrush}"
+                    CornerRadius="2 2 0 0"
+                    Opacity="0"/>
+            <Border x:Name="BackgroundBorderMouseOver"
+                    Grid.ColumnSpan="3"
+                    Height="10"
+                    Background="{TemplateBinding helpers:ThemeHelper.MouseOverBackgroundBrush}"
+                    CornerRadius="2 2 0 0"
+                    Opacity="0"/>
+            <Border x:Name="BackgroundBorderSelected"
+                    Grid.ColumnSpan="3"
+                    Height="10"
+                    Background="{TemplateBinding helpers:ThemeHelper.CheckedBackgroundBrush}"
+                    CornerRadius="2 2 0 0"
+                    Opacity="0"/>
+            <Path x:Name="RightMarker"
+                    Grid.Column="2"
+                    Data="M0,0L462,0 462,14z"
+                    Stretch="Fill"
+                    Fill="{TemplateBinding Background}"
+                    Width="10"
+                    Height="10"
+                    Margin="0 0 0 -16"
+                    HorizontalAlignment="Right"/>
+            <Path x:Name="RightMarkerHighlighted"
+                    Data="M0,0L462,0 462,14z"
+                    Grid.Column="2"
+                    Stretch="Fill"
+                    Fill="{telerik1:Windows11Resource ResourceKey=ValidationBrush}"
+                    Width="10"
+                    Height="10"
+                    Margin="0 0 0 -16"
+                    HorizontalAlignment="Right"
+                    Opacity="0"/>
+            <Path x:Name="RightMarkerMouseOver"
+                    Grid.Column="2"
+                    Data="M0,0L462,0 462,14z"
+                    Stretch="Fill"
+                    Fill="{TemplateBinding helpers:ThemeHelper.MouseOverBackgroundBrush}"
+                    Width="10"
+                    Height="10"
+                    Margin="0 0 0 -16"
+                    HorizontalAlignment="Right"
+                    Opacity="0"/>
+            <Path x:Name="RightMarkerSelected"
+                    Grid.Column="2"
+                    Data="M0,0L462,0 462,14z"
+                    Stretch="Fill"
+                    Fill="{TemplateBinding helpers:ThemeHelper.CheckedBackgroundBrush}"
+                    Width="10"
+                    Height="10"
+                    Margin="0 0 0 -16"
+                    HorizontalAlignment="Right"
+                    Opacity="0"/>
+        </Grid>
+    </ControlTemplate>
+    <Style x:Key="SummaryContainerStyle" TargetType="gantt1:SummaryContainer">
+        <Setter Property="helpers:ThemeHelper.MouseOverBackgroundBrush" Value="{telerik1:Windows11Resource ResourceKey=AccentMouseOverBrush}"/>
+        <Setter Property="helpers:ThemeHelper.CheckedBackgroundBrush" Value="{telerik:Windows11Resource ResourceKey=AccentBrush}"/>
+        <Setter Property="scheduling:DragDropElement.Type" Value="Drag"/>
+        <Setter Property="telerik:TouchManager.DragStartTrigger" Value="TapHoldAndMove"/>
+        <Setter Property="FontFamily" Value="{telerik:Windows11Resource ResourceKey=FontFamily}"/>
+        <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+        <Setter Property="Background" Value="{telerik1:Windows11Resource ResourceKey=AccentSelectedBrush}"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Margin" Value="-4 12 -4 0"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="telerik:ZIndexManager.ZIndex" Value="40"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="ToolTipTemplate" Value="{StaticResource SummaryToolTipTemplate}"/>
+        <Setter Property="Template" Value="{StaticResource SummaryContainerTemplate}"/>
+    </Style>
+    <ControlTemplate x:Key="ColumnHeaderContainerTemplate" TargetType="gantt1:ColumnHeaderContainer">
+        <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
+            <Grid>
+                <ContentPresenter
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                        Content="{Binding SourceItem}"
+                        Margin="{TemplateBinding Padding}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                <telerik:ResizeControl
+                        Grid.Column="1"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Right"
+                        Style="{StaticResource GanttPresenterHeaderSplitterStyle}"
+                        ShowsPreview="False"
+                        IsEnabled="{Binding SourceItem.IsResizable}"/>
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=DisabledForegroundBrush}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <Style x:Key="ColumnHeaderContainerStyle" TargetType="gantt1:ColumnHeaderContainer">
+        <Setter Property="FontFamily" Value="{telerik:Windows11Resource ResourceKey=FontFamily}"/>
+        <Setter Property="FontSize" Value="{telerik:Windows11Resource ResourceKey=FontSize}"/>
+        <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+        <Setter Property="Background" Value="{telerik:Windows11Resource ResourceKey=PrimarySolidBackgroundBrush}"/>
+        <Setter Property="AlternatingBackground" Value="{telerik:Windows11Resource ResourceKey=PrimarySolidBackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{telerik:Windows11Resource ResourceKey=PrimarySolidBorderBrush}"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="SubitemsGap" Value="0"/>
+        <Setter Property="SubitemsPadding" Value="0"/>
+        <Setter Property="BorderThickness" Value="1 1 0 1"/>
+        <Setter Property="Padding" Value="8 5 4 4"/>
+        <Setter Property="MinHeight" Value="46"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Template" Value="{StaticResource ColumnHeaderContainerTemplate}"/>
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Header}"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="SimpleCellContainerStyle" TargetType="gantt1:SimpleCellContainer">
+        <Setter Property="gantt1:TreeCellContainer.LevelOffset" Value="15"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="telerik:ZIndexManager.ZIndex" Value="30"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="FontSize" Value="{telerik:Windows11Resource ResourceKey=FontSize}"/>
+        <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+        <Setter Property="Padding" Value="8 0"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="MinHeight" Value="40"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="gantt1:SimpleCellContainer">
+                    <Border Background="{TemplateBinding Background}" BorderThickness="0" BorderBrush="{TemplateBinding BorderBrush}">
+                        <TextBlock x:Name="ValueTextBlock"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=DisabledForegroundBrush}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="CellContainerStyle" TargetType="gantt1:CellContainer">
+        <Setter Property="IsHitTestVisible" Value="True"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="KeyboardNavigation.IsTabStop" Value="False"/>
+        <Setter Property="Padding" Value="8 0"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="MinHeight" Value="40"/>
+        <Setter Property="FontSize" Value="{telerik:Windows11Resource ResourceKey=FontSize}"/>
+        <Setter Property="telerik:ZIndexManager.ZIndex" Value="30"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding FormattedValue}" VerticalAlignment="Center"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="gantt1:CellContainer">
+                    <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=DisabledForegroundBrush}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="CellHighlightContainerStyle" TargetType="gantt1:CellContainer" BasedOn="{StaticResource CellContainerStyle}">
+        <Setter Property="telerik:DragDropManager.AllowCapturedDrag" Value="True"/>
+        <Setter Property="telerik:TouchManager.DragStartTrigger" Value="TapAndHold"/>
+        <Setter Property="BorderBrush" Value="{telerik1:Windows11Resource ResourceKey=FocusBrush}"/>
+        <Setter Property="BorderThickness" Value="{telerik1:Windows11Resource ResourceKey=FocusThickness}"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="telerik:ZIndexManager.ZIndex" Value="100"/>
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding FormattedValue}" VerticalAlignment="Center"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="gantt1:CellContainer">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup>
+                                <VisualState x:Name="HighlightedState"/>
+                                <VisualState x:Name="SelectedState"/>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"/>
+                        <ContentPresenter Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="CellEditingContainerStyle" TargetType="gantt1:CellEditingContainer">
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="Once"/>
+        <Setter Property="KeyboardNavigation.IsTabStop" Value="False"/>
+        <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+        <Setter Property="FontSize" Value="{telerik:Windows11Resource ResourceKey=FontSize}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="telerik:ZIndexManager.ZIndex" Value="50"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="gantt1:CellEditingContainer">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                        <ContentPresenter Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock x:Name="CellText" Text="{Binding FormattedValue}"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="SimpleTreeCellContainerStyle" TargetType="gantt1:SimpleCellContainer" BasedOn="{StaticResource SimpleCellContainerStyle}">
+        <Setter Property="Padding" Value="0 0 8 0"/>
+        <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="gantt1:SimpleCellContainer">
+                    <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                        <Grid x:Name="TemplateRootVisual"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                Background="{TemplateBinding Background}"
+                                VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border x:Name="PART_ExpandCollapseHitArea" MinHeight="40" Background="Transparent" Grid.Column="0" HorizontalAlignment="Stretch">
+                                <telerik:RadGlyph x:Name="PART_ExpandCollapseVisual"
+                                        Foreground="{telerik1:Windows11Resource ResourceKey=IconSecondaryBrush}"
+                                        RenderTransformOrigin="0.5 0.5"
+                                        IsHitTestVisible="False"/>
+                            </Border>
+                            <TextBlock Grid.Column="1" x:Name="ValueTextBlock" HorizontalAlignment="Stretch" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=DisabledForegroundBrush}"/>
+                            <Setter TargetName="PART_ExpandCollapseVisual" Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=DisabledForegroundBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="gantt1:TreeCellContainer.ExpandCollapseVisualCollapsedStyle">
+            <Setter.Value>
+                <Style TargetType="telerik:RadGlyph" BasedOn="{StaticResource RadGlyphStyle}">
+                    <Setter Property="Glyph" Value="{StaticResource GlyphArrowChevronRight}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="gantt1:TreeCellContainer.ExpandCollapseVisualExpandedStyle">
+            <Setter.Value>
+                <Style TargetType="telerik:RadGlyph" BasedOn="{StaticResource RadGlyphStyle}">
+                    <Setter Property="Glyph" Value="{StaticResource GlyphArrowChevronDown}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="FlowDirection" Value="RightToLeft">
+                <Setter Property="gantt1:TreeCellContainer.ExpandCollapseVisualCollapsedStyle">
+                    <Setter.Value>
+                        <Style TargetType="telerik:RadGlyph" BasedOn="{StaticResource RadGlyphStyle}">
+                            <Setter Property="Glyph" Value="{StaticResource GlyphArrowChevronLeft}"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="gantt1:TreeCellContainer.ExpandCollapseVisualExpandedStyle">
+                    <Setter.Value>
+                        <Style TargetType="telerik:RadGlyph" BasedOn="{StaticResource RadGlyphStyle}">
+                            <Setter Property="Glyph" Value="{StaticResource GlyphArrowChevronDown}"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <ControlTemplate x:Key="TreeCellContainerTemplate" TargetType="gantt1:TreeCellContainer">
+        <Grid x:Name="TemplateRootVisual" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border x:Name="PART_ExpandCollapseHitArea" MinHeight="40" Background="Transparent" Grid.Column="0" HorizontalAlignment="Stretch">
+                <telerik:RadGlyph x:Name="PART_ExpandCollapseVisual"
+                        Foreground="{telerik1:Windows11Resource ResourceKey=IconSecondaryBrush}"
+                        RenderTransformOrigin="0.5,0.5"
+                        IsHitTestVisible="False"/>
+            </Border>
+            <ContentPresenter
+                    Grid.Column="1"
+                    Margin="{TemplateBinding Padding}"
+                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=DisabledForegroundBrush}"/>
+                <Setter TargetName="PART_ExpandCollapseVisual" Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=DisabledForegroundBrush}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <Style x:Key="TreeCellContainerStyle" TargetType="gantt1:TreeCellContainer">
+        <Setter Property="gantt1:TreeCellContainer.LevelOffset" Value="15"/>
+        <Setter Property="IsHitTestVisible" Value="True"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="telerik:ZIndexManager.ZIndex" Value="30"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Padding" Value="0 0 8 0"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="MinHeight" Value="40"/>
+        <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+        <Setter Property="FontSize" Value="{telerik:Windows11Resource ResourceKey=FontSize}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding FormattedValue}" VerticalAlignment="Center"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template" Value="{StaticResource TreeCellContainerTemplate}"/>
+        <Setter Property="gantt1:TreeCellContainer.ExpandCollapseVisualCollapsedStyle">
+            <Setter.Value>
+                <Style TargetType="telerik:RadGlyph" BasedOn="{StaticResource RadGlyphStyle}">
+                    <Setter Property="Glyph" Value="{StaticResource GlyphArrowChevronRight}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="gantt1:TreeCellContainer.ExpandCollapseVisualExpandedStyle">
+            <Setter.Value>
+                <Style TargetType="telerik:RadGlyph" BasedOn="{StaticResource RadGlyphStyle}">
+                    <Setter Property="Glyph" Value="{StaticResource GlyphArrowChevronDown}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="FlowDirection" Value="RightToLeft">
+                <Setter Property="gantt1:TreeCellContainer.ExpandCollapseVisualCollapsedStyle">
+                    <Setter.Value>
+                        <Style TargetType="telerik:RadGlyph" BasedOn="{StaticResource RadGlyphStyle}">
+                            <Setter Property="Glyph" Value="{StaticResource GlyphArrowChevronLeft}"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="gantt1:TreeCellContainer.ExpandCollapseVisualExpandedStyle">
+                    <Setter.Value>
+                        <Style TargetType="telerik:RadGlyph" BasedOn="{StaticResource RadGlyphStyle}">
+                            <Setter Property="Glyph" Value="{StaticResource GlyphArrowChevronDown}"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <ControlTemplate x:Key="TreeCellHighlightContainerTemplate" TargetType="gantt1:TreeCellHighlightContainer">
+        <Grid x:Name="TemplateRootVisual" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border x:Name="PART_ExpandCollapseHitArea" MinHeight="40" Background="Transparent" Grid.Column="0" HorizontalAlignment="Stretch">
+                <telerik:RadGlyph x:Name="PART_ExpandCollapseVisual"
+                        Foreground="{telerik1:Windows11Resource ResourceKey=IconSecondaryBrush}"
+                        RenderTransformOrigin="0.5,0.5"
+                        IsHitTestVisible="False"/>
+            </Border>
+            <Border
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    Background="{TemplateBinding Background}"
+                    HorizontalAlignment="Stretch"
+                    Margin="-4 0 1 0"
+                    Grid.Column="1"/>
+            <ContentPresenter
+                    Grid.Column="1"
+                    Margin="{TemplateBinding Padding}"
+                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+        </Grid>
+    </ControlTemplate>
+    <Style x:Key="TreeCellHighlightContainerStyle" TargetType="gantt1:TreeCellContainer" BasedOn="{StaticResource TreeCellContainerStyle}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{telerik1:Windows11Resource ResourceKey=FocusBrush}"/>
+        <Setter Property="BorderThickness" Value="{telerik1:Windows11Resource ResourceKey=FocusThickness}"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="0 0 8 0"/>
+        <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+        <Setter Property="telerik:DragDropManager.AllowCapturedDrag" Value="True"/>
+        <Setter Property="telerik:TouchManager.DragStartTrigger" Value="TapHoldAndMove"/>
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding FormattedValue}" VerticalAlignment="Center"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template" Value="{StaticResource TreeCellHighlightContainerTemplate}"/>
+    </Style>
+    <Style x:Key="TreeCellEditingContainerStyle" TargetType="gantt1:CellEditingContainer" BasedOn="{StaticResource CellEditingContainerStyle}">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="gantt1:TreeCellEditingContainer">
+                    <Grid x:Name="TemplateRootVisual" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Border x:Name="PART_ExpandCollapseHitArea" Grid.Column="0" MinHeight="40" Background="Transparent" HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
+                            <telerik:RadGlyph x:Name="PART_ExpandCollapseVisual"
+                                    Foreground="{telerik1:Windows11Resource ResourceKey=IconSecondaryBrush}"
+                                    RenderTransformOrigin="0.5 0.5"
+                                    IsHitTestVisible="False"/>
+                        </Border>
+                        <ContentPresenter
+                                Grid.Column="1"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="gantt1:TreeCellContainer.ExpandCollapseVisualCollapsedStyle">
+            <Setter.Value>
+                <Style TargetType="telerik:RadGlyph" BasedOn="{StaticResource RadGlyphStyle}">
+                    <Setter Property="Glyph" Value="{StaticResource GlyphArrowChevronRight}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="gantt1:TreeCellContainer.ExpandCollapseVisualExpandedStyle">
+            <Setter.Value>
+                <Style TargetType="telerik:RadGlyph" BasedOn="{StaticResource RadGlyphStyle}">
+                    <Setter Property="Glyph" Value="{StaticResource GlyphArrowChevronDown}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="FlowDirection" Value="RightToLeft">
+                <Setter Property="gantt1:TreeCellContainer.ExpandCollapseVisualCollapsedStyle">
+                    <Setter.Value>
+                        <Style TargetType="telerik:RadGlyph" BasedOn="{StaticResource RadGlyphStyle}">
+                            <Setter Property="Glyph" Value="{StaticResource GlyphArrowChevronLeft}"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="gantt1:TreeCellContainer.ExpandCollapseVisualExpandedStyle">
+                    <Setter.Value>
+                        <Style TargetType="telerik:RadGlyph" BasedOn="{StaticResource RadGlyphStyle}">
+                            <Setter Property="Glyph" Value="{StaticResource GlyphArrowChevronLeft}"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="DeadlineContainerStyle" TargetType="gantt1:DeadlineContainer">
+        <Setter Property="Background" Value="{telerik1:Windows11Resource ResourceKey=ValidationBrush}"/>
+        <Setter Property="telerik:ZIndexManager.ZIndex" Value="100"/>
+        <Setter Property="Margin" Value="0 0 -4 0"/>
+        <Setter Property="IsHitTestVisible" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="gantt1:DeadlineContainer">
+                    <StackPanel Orientation="Horizontal">
+                        <Grid Width="3" Margin="0 0 -1 0">
+                            <Rectangle Width="1" Fill="{TemplateBinding Background}" Margin="0 1" Height="22"/>
+                        </Grid>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="OnTimeIndicatorContainerStyle" TargetType="gantt1:OnTimeIndicatorContainer">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="MinHeight" Value="17"/>
+        <Setter Property="Padding" Value="5 0"/>
+        <Setter Property="telerik:ZIndexManager.ZIndex" Value="35"/>
+        <Setter Property="Margin" Value="13 -2 -30 0"/>
+        <Setter Property="Foreground" Value="{telerik:Windows11Resource ResourceKey=AccentControlForegroundBrush}"/>
+        <Setter Property="Background" Value="{StaticResource OnTimeBrush}"/>
+        <Setter Property="IsHitTestVisible" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="gantt1:OnTimeIndicatorContainer">
+                    <Grid>
+                        <Ellipse
+                                Width="16"
+                                Height="16"
+                                Fill="{telerik1:Windows11Resource ResourceKey=ValidationBrush}"
+                                VerticalAlignment="Center"
+                                Visibility="{Binding OriginalEvent.IsExpired, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        <Ellipse
+                                Width="16"
+                                Height="16"
+                                Fill="{TemplateBinding Background}"
+                                VerticalAlignment="Center"
+                                Visibility="{Binding OriginalEvent.IsExpired, Converter={StaticResource InvertedBooleanToVisibilityConverter}}"/>
+                        <telerik:RadGlyph Foreground="{TemplateBinding Foreground}" Glyph="{StaticResource GlyphArrowDown}" RenderTransformOrigin="0.5 0.5">
+                            <telerik:RadGlyph.RenderTransform>
+                                <RotateTransform Angle="-45"/>
+                            </telerik:RadGlyph.RenderTransform>
+                        </telerik:RadGlyph>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="gantt1:GanttItemsPresenter" BasedOn="{StaticResource GanttItemsPresenterStyle}"/>
+    <Style TargetType="gantt:RadGanttView" BasedOn="{StaticResource RadGanttViewStyle}"/>
+    <Style TargetType="gantt1:RelationContainer" BasedOn="{StaticResource RelationContainerStyle}"/>
+    <Style TargetType="gantt1:EventDecoratorContainer" BasedOn="{StaticResource EventDecoratorContainerStyle}"/>
+    <Style TargetType="gantt1:EventContainer" BasedOn="{StaticResource EventContainerStyle}"/>
+    <Style TargetType="gantt1:MilestoneContainer" BasedOn="{StaticResource MilestoneContainerStyle}"/>
+    <Style TargetType="gantt1:SummaryContainer" BasedOn="{StaticResource SummaryContainerStyle}"/>
+    <Style TargetType="gantt1:ColumnHeaderContainer" BasedOn="{StaticResource ColumnHeaderContainerStyle}"/>
+    <Style TargetType="gantt1:SimpleCellContainer" BasedOn="{StaticResource SimpleCellContainerStyle}"/>
+    <Style TargetType="gantt1:CellContainer" BasedOn="{StaticResource CellContainerStyle}"/>
+    <Style TargetType="gantt1:CellHighlightContainer" BasedOn="{StaticResource CellHighlightContainerStyle}"/>
+    <Style TargetType="gantt1:CellEditingContainer" BasedOn="{StaticResource CellEditingContainerStyle}"/>
+    <Style TargetType="gantt1:SimpleTreeCellContainer" BasedOn="{StaticResource SimpleTreeCellContainerStyle}"/>
+    <Style TargetType="gantt1:TreeCellContainer" BasedOn="{StaticResource TreeCellContainerStyle}"/>
+    <Style TargetType="gantt1:TreeCellHighlightContainer" BasedOn="{StaticResource TreeCellHighlightContainerStyle}"/>
+    <Style TargetType="gantt1:TreeCellEditingContainer" BasedOn="{StaticResource TreeCellEditingContainerStyle}"/>
+    <Style TargetType="gantt1:DragResizeSlotHighlightContainer" BasedOn="{StaticResource DragResizeSlotHighlightContainerStyle}"/>
+    <Style TargetType="gantt1:DragResizeMilestoneSlotHighlightContainer" BasedOn="{StaticResource DragResizeMilestoneSlotHighlightContainerStyle}"/>
+    <Style TargetType="gantt1:DragResizeSummarySlotHighlightContainer" BasedOn="{StaticResource DragResizeSummarySlotHighlightContainerStyle}"/>
+    <Style TargetType="gantt1:GanttDragResizeVisualCue" BasedOn="{StaticResource GanttDragResizeVisualCueStyle}"/>
+    <Style TargetType="gantt1:DropReorderHighlightContainer" BasedOn="{StaticResource DropReorderHighlightContainerStyle}"/>
+    <Style TargetType="gantt1:DragRelationSlotContainer" BasedOn="{StaticResource DragRelationSlotClontainerStyle}"/>
+    <Style TargetType="gantt1:DeadlineContainer" BasedOn="{StaticResource DeadlineContainerStyle}"/>
+    <Style TargetType="gantt1:OnTimeIndicatorContainer" BasedOn="{StaticResource OnTimeIndicatorContainerStyle}"/>
+</ResourceDictionary>

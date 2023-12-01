@@ -1,0 +1,138 @@
+﻿
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>CentralSIG</RootNamespace>
+    <EnableDefaultItems>False</EnableDefaultItems>
+    <ApplicationIcon>Imagens\logo-vermelho.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DeltaCompressionDotNet" Version="2.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="squirrel.windows" Version="1.9.0" />
+    <PackageReference Include="Telerik.UI.for.Wpf.70.Xaml" Version="2023.1.117" />
+  </ItemGroup>
+  
+  <ItemGroup>
+  <ApplicationDefinition Include="App.xaml">
+    <Generator>MSBuild:Compile</Generator>
+    <SubType>Designer</SubType>
+  </ApplicationDefinition>
+  <Page Include="MainWindow.xaml">
+    <Generator>MSBuild:Compile</Generator>
+    <SubType>Designer</SubType>
+  </Page>
+  <Page Include="Themes\System.Windows.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Cloud.Controls.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.Chart.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.ConversationalUI.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.Data.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.DataVisualization.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.Diagrams.Extensions.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.Diagrams.Ribbon.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.Diagrams.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.Docking.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.Expressions.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.FileDialogs.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.FixedDocumentViewers.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.FixedDocumentViewersUI.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.GanttView.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.GridView.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.ImageEditor.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.Input.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.Media.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.Navigation.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.Pivot.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.PivotFieldList.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.RibbonView.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.RichTextBox.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.ScheduleView.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.Spreadsheet.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.SpreadsheetUI.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.SyntaxEditor.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.VirtualGrid.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Controls.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Themes\Telerik.Windows.Documents.Proofing.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Compile Include="App.xaml.cs">
+    <DependentUpon>App.xaml</DependentUpon>
+    <SubType>Code</SubType>
+  </Compile>
+  <Compile Include="Converters\StringToUpperCaseConverter.cs" />
+  <Compile Include="MainWindow.xaml.cs">
+    <DependentUpon>MainWindow.xaml</DependentUpon>
+    <SubType>Code</SubType>
+  </Compile>
+</ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="Imagens\logo-vermelho.ico" />
+    <Content Include="Imagens\logo-vermelho.png" />
+  </ItemGroup>
+
+</Project>

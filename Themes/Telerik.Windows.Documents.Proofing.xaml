@@ -1,0 +1,640 @@
+<ResourceDictionary
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:c="http://schemas.telerik.com/2008/xaml/compile"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="c"
+        xmlns:telerikProofing="clr-namespace:Telerik.Windows.Documents.Proofing;assembly=Telerik.Windows.Documents.Proofing"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        xmlns:telerik1="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls"
+        xmlns:helpers="clr-namespace:Telerik.Windows.Controls.Theming.Helpers;assembly=Telerik.Windows.Controls"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:telerikNavigation="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Navigation"
+        xmlns:ext="clr-namespace:Telerik.Windows.Controls.MarkupExtensions;assembly=Telerik.Windows.Controls"
+        xmlns:animation="clr-namespace:Telerik.Windows.Controls.Animation;assembly=Telerik.Windows.Controls"
+        xmlns:navigation="clr-namespace:Telerik.Windows.Controls.Navigation;assembly=Telerik.Windows.Controls.Navigation"
+        xmlns:mat="clr-namespace:Telerik.Windows.Controls.MaterialControls;assembly=Telerik.Windows.Controls">
+    <ResourceDictionary.MergedDictionaries>
+        <telerik:Windows11ResourceDictionary/>
+    </ResourceDictionary.MergedDictionaries>
+    <telerik1:ColorToBrushWithOpacityConverter x:Key="ColorToBrushWithOpacityConverter"/>
+    <telerik1:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <telerik1:OpacityConverter x:Key="OpacityConverter"/>
+    <FontFamily x:Key="TelerikWebUI">/Telerik.Windows.Controls;component/Themes/Fonts/old/TelerikWebUI.ttf#TelerikWebUI</FontFamily>
+    <sys:String x:Key="GlyphClose"></sys:String>
+    <sys:String x:Key="GlyphWindow"></sys:String>
+    <sys:String x:Key="GlyphWindowCollapse"></sys:String>
+    <sys:String x:Key="GlyphMinimize"></sys:String>
+    <sys:String x:Key="GlyphQuestion"></sys:String>
+    <sys:String x:Key="GlyphWarning"></sys:String>
+    <Style x:Key="FocusVisualBorderStyle" TargetType="Border">
+        <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helpers:ThemeHelper.FocusBackgroundBrush)}"/>
+        <Setter Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helpers:ThemeHelper.FocusBrush)}"/>
+        <Setter Property="BorderThickness" Value="{telerik1:Windows11Resource ResourceKey=FocusThickness}"/>
+        <Setter Property="SnapsToDevicePixels" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SnapsToDevicePixels}"/>
+        <Setter Property="IsHitTestVisible" Value="False"/>
+        <Setter Property="Opacity" Value="0"/>
+    </Style>
+    <ext:DynamicResourceProxy x:Key="ValidationBrush230AlphaProxy" ProxyValue="{Binding Source={x:Static telerik1:Windows11Palette.Palette}, Path=ValidationColor, Converter={StaticResource ColorToBrushWithOpacityConverter}, ConverterParameter=230}"/>
+    <ControlTemplate x:Key="RadButtonTemplate" TargetType="telerik1:RadButton">
+        <Grid>
+            <Border x:Name="FocusVisual" Style="{StaticResource FocusVisualBorderStyle}" CornerRadius="{TemplateBinding CornerRadius}"/>
+            <Grid Margin="{TemplateBinding helpers:ThemeHelper.FocusVisualMargin}">
+                <Grid SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" MinHeight="{TemplateBinding MinHeight}" MinWidth="{TemplateBinding MinWidth}">
+                    <Border x:Name="BorderVisual"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{TemplateBinding CornerRadius}"/>
+                    <ContentPresenter x:Name="Content"
+                            TextBlock.Foreground="{TemplateBinding Foreground}"
+                            Margin="{TemplateBinding Padding}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                            ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                            RecognizesAccessKey="True"/>
+                </Grid>
+            </Grid>
+        </Grid>
+        <ControlTemplate.Triggers>
+
+            <!-- background is hidden -->
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsBackgroundVisible" Value="False"/>
+                    <Condition Property="IsEnabled" Value="True"/>
+                    <Condition Property="IsMouseOver" Value="False"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+            </MultiTrigger>
+
+            <!-- General IsKeyboardFocused setters -->
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsKeyboardFocused" Value="True"/>
+                    <Condition Property="IsEnabled" Value="True"/>
+                    <Condition Property="IsMouseOver" Value="False"/>
+                    <Condition Property="IsPressed" Value="False"/>
+                </MultiTrigger.Conditions>
+                <Setter TargetName="FocusVisual" Property="Opacity" Value="1"/>
+            </MultiTrigger>
+
+            <!-- general setters for IsMouseOver -->
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="BorderVisual" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helpers:ThemeHelper.MouseOverBackgroundBrush)}"/>
+                <Setter TargetName="BorderVisual" Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helpers:ThemeHelper.MouseOverBrush)}"/>
+            </Trigger>
+
+            <!-- general setters for IsPressed -->
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Foreground" Value="{telerik1:Windows11Resource ResourceKey=SecondaryForegroundBrush}"/>
+                <Setter TargetName="BorderVisual" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helpers:ThemeHelper.PressedBackgroundBrush)}"/>
+                <Setter TargetName="BorderVisual" Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helpers:ThemeHelper.PressedBrush)}"/>
+            </Trigger>
+
+            <!-- disabled -->
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="Content" Property="Opacity" Value="{telerik1:Windows11Resource ResourceKey=DisabledOpacity}"/>
+                <Setter TargetName="Content" Property="TextBlock.Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helpers:ThemeHelper.DisabledForegroundBrush)}"/>
+                <Setter TargetName="BorderVisual" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helpers:ThemeHelper.DisabledBackgroundBrush)}"/>
+                <Setter TargetName="BorderVisual" Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helpers:ThemeHelper.DisabledBrush)}"/>
+            </Trigger>
+
+            <!-- disabled & background is hidden -->
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsEnabled" Value="False"/>
+                    <Condition Property="IsBackgroundVisible" Value="False"/>
+                </MultiTrigger.Conditions>
+                <Setter TargetName="Content" Property="TextBlock.Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helpers:ThemeHelper.DisabledForegroundBrush)}"/>
+                <Setter Property="helpers:ThemeHelper.DisabledBackgroundBrush" Value="Transparent"/>
+                <Setter Property="helpers:ThemeHelper.DisabledBrush" Value="Transparent"/>
+            </MultiTrigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <Style x:Key="RadButtonStyle" TargetType="telerik1:RadButton">
+        <Setter Property="helpers:ThemeHelper.FocusBackgroundBrush" Value="{telerik1:Windows11Resource ResourceKey=FocusInnerBrush}"/>
+        <Setter Property="helpers:ThemeHelper.FocusBrush" Value="{telerik1:Windows11Resource ResourceKey=FocusBrush}"/>
+        <Setter Property="helpers:ThemeHelper.FocusVisualMargin" Value="{telerik1:Windows11Resource ResourceKey=FocusVisualMargin}"/>
+        <Setter Property="helpers:ThemeHelper.MouseOverBackgroundBrush" Value="{telerik1:Windows11Resource ResourceKey=MouseOverBackgroundBrush}"/>
+        <Setter Property="helpers:ThemeHelper.MouseOverBrush" Value="{telerik1:Windows11Resource ResourceKey=ButtonBorderBrush}"/>
+        <Setter Property="helpers:ThemeHelper.PressedBackgroundBrush" Value="{telerik1:Windows11Resource ResourceKey=PressedBackgroundBrush}"/>
+        <Setter Property="helpers:ThemeHelper.PressedBrush" Value="{telerik1:Windows11Resource ResourceKey=PrimaryBorderBrush}"/>
+        <Setter Property="helpers:ThemeHelper.DisabledForegroundBrush" Value="{telerik1:Windows11Resource ResourceKey=DisabledForegroundBrush}"/>
+        <Setter Property="helpers:ThemeHelper.DisabledBackgroundBrush" Value="{telerik1:Windows11Resource ResourceKey=DisabledBackgroundBrush}"/>
+        <Setter Property="helpers:ThemeHelper.DisabledBrush" Value="{telerik1:Windows11Resource ResourceKey=DisabledBorderBrush}"/>
+        <Setter Property="CornerRadius" Value="{telerik1:Windows11Resource ResourceKey=CornerRadius}"/>
+        <Setter Property="FontFamily" Value="{telerik1:Windows11Resource ResourceKey=FontFamily}"/>
+        <Setter Property="FontSize" Value="{telerik1:Windows11Resource ResourceKey=FontSize}"/>
+        <Setter Property="Foreground" Value="{telerik1:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+        <Setter Property="Background" Value="{telerik1:Windows11Resource ResourceKey=PrimaryBackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{telerik1:Windows11Resource ResourceKey=ButtonBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="11 6"/>
+        <Setter Property="MinHeight" Value="32"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template" Value="{StaticResource RadButtonTemplate}"/>
+    </Style>
+    <Style TargetType="telerik1:RadButton" BasedOn="{StaticResource RadButtonStyle}"/>
+    <Thickness x:Key="IconMargin">0 0 8 0</Thickness>
+    <Thickness x:Key="DialogContentMargin">16 8</Thickness>
+
+    <!-- RadWindow Styles -->
+    <DataTemplate x:Key="AlertIconTemplate">
+        <telerik:RadGlyph FontSize="24" Foreground="{telerik1:Windows11Resource ResourceKey=IconBrush}" Glyph="{StaticResource GlyphWarning}"/>
+    </DataTemplate>
+    <DataTemplate x:Key="ConfirmIconTemplate">
+        <telerik:RadGlyph FontSize="24" Foreground="{telerik1:Windows11Resource ResourceKey=IconBrush}" Glyph="{StaticResource GlyphQuestion}"/>
+    </DataTemplate>
+    <Style x:Key="WindowButtonStyle" TargetType="telerik:RadButton" BasedOn="{StaticResource RadButtonStyle}">
+        <Setter Property="helpers:ThemeHelper.MouseOverBackgroundBrush" Value="{telerik1:Windows11Resource ResourceKey=MouseOverBackgroundBrush}"/>
+        <Setter Property="helpers:ThemeHelper.PressedBackgroundBrush" Value="{telerik1:Windows11Resource ResourceKey=PressedBackgroundBrush}"/>
+        <Setter Property="helpers:ThemeHelper.FocusVisualMargin" Value="0"/>
+        <Setter Property="MinHeight" Value="0"/>
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="Width" Value="46"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Foreground" Value="{telerik1:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Bottom"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="telerik:RadButton">
+                    <Grid>
+                        <Border x:Name="BorderVisual"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}">
+                            <ContentPresenter x:Name="Content" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=telerikNavigation:RadWindow}, Path=WindowState}" Value="Minimized">
+                            <Setter Property="Width" Value="28"/>
+                            <Setter Property="Height" Value="28"/>
+                        </DataTrigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{telerik1:Windows11Resource ResourceKey=SecondaryForegroundBrush}"/>
+                            <Setter TargetName="BorderVisual" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helpers:ThemeHelper.MouseOverBackgroundBrush)}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Foreground" Value="{telerik1:Windows11Resource ResourceKey=TertiaryForegroundBrush}"/>
+                            <Setter TargetName="BorderVisual" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helpers:ThemeHelper.PressedBackgroundBrush)}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{telerik1:Windows11Resource ResourceKey=DisabledForegroundBrush}"/>
+                            <Setter TargetName="Content" Property="Opacity" Value="{telerik1:Windows11Resource ResourceKey=DisabledOpacity}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="WindowCloseButtonStyle" TargetType="telerik:RadButton" BasedOn="{StaticResource WindowButtonStyle}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{telerik1:Windows11Resource ResourceKey=AccentControlForegroundBrush}"/>
+                <Setter Property="helpers:ThemeHelper.MouseOverBackgroundBrush" Value="{telerik1:Windows11Resource ResourceKey=ValidationBrush}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Foreground" Value="{telerik1:Windows11Resource ResourceKey=AccentControlForegroundBrush}"/>
+                <Setter Property="helpers:ThemeHelper.PressedBackgroundBrush" Value="{Binding Source={StaticResource ValidationBrush230AlphaProxy}, Path=ProxyValue}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <ControlTemplate x:Key="RadWindowTemplate" TargetType="telerikNavigation:RadWindow">
+        <Grid x:Name="LayoutRoot">
+            <Border x:Name="WindowOuterBorder"
+                    Grid.RowSpan="2"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}">
+                <Grid telerik:CornerRadiusHelper.ClipRadius="{Binding ElementName=WindowOuterBorder, Path=CornerRadius}" telerik:CornerRadiusHelper.ClipRadiusOffset="{TemplateBinding telerik:CornerRadiusHelper.ClipRadiusOffset}">
+                    <AdornerDecorator>
+                        <Grid x:Name="BackgroundVisual" Background="{TemplateBinding Background}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition x:Name="WindowHeaderRow" Height="Auto" MinHeight="32"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="Header">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ContentPresenter x:Name="IconContent"
+                                                Grid.Column="0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Content="{TemplateBinding Icon}"
+                                                ContentTemplate="{TemplateBinding IconTemplate}"
+                                                Margin="{TemplateBinding IconMargin}"/>
+                                        <ContentControl x:Name="HeaderContent"
+                                                Grid.Column="1"
+                                                Foreground="{TemplateBinding Foreground}"
+                                                Margin="16 0"
+                                                IsTabStop="False"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Center"
+                                                HorizontalContentAlignment="Stretch"
+                                                Content="{TemplateBinding Header}"
+                                                ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                                SnapsToDevicePixels="True"
+                                                ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
+                                                FontSize="{TemplateBinding FontSize}"
+                                                FontFamily="{TemplateBinding FontFamily}"/>
+                                    </Grid>
+                                    <Border x:Name="PART_HeaderButtonsBorder" Grid.Column="1">
+                                        <StackPanel x:Name="HeaderButtons" Orientation="Horizontal">
+                                            <telerik:RadButton x:Name="PART_MinimizeButton"
+                                                    Command="{x:Static telerik:WindowCommands.Minimize}"
+                                                    Style="{StaticResource WindowButtonStyle}"
+                                                    Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Self}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip telerik:LocalizationManager.ResourceKey="Minimize"/>
+                                                </ToolTipService.ToolTip>
+                                                <telerik:RadGlyph Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type telerik:RadButton}}}" Glyph="{StaticResource GlyphMinimize}"/>
+                                            </telerik:RadButton>
+                                            <telerik:RadButton x:Name="PART_RestoreButton"
+                                                    Command="{x:Static telerik:WindowCommands.Restore}"
+                                                    Style="{StaticResource WindowButtonStyle}"
+                                                    Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Self}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip telerik:LocalizationManager.ResourceKey="Restore"/>
+                                                </ToolTipService.ToolTip>
+                                                <telerik:RadGlyph Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type telerik:RadButton}}}" Glyph="{StaticResource GlyphWindowCollapse}"/>
+                                            </telerik:RadButton>
+                                            <telerik:RadButton x:Name="PART_MaximizeButton"
+                                                    Command="{x:Static telerik:WindowCommands.Maximize}"
+                                                    Style="{StaticResource WindowButtonStyle}"
+                                                    Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Self}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip telerik:LocalizationManager.ResourceKey="Maximize"/>
+                                                </ToolTipService.ToolTip>
+                                                <telerik:RadGlyph Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type telerik:RadButton}}}" Glyph="{StaticResource GlyphWindow}"/>
+                                            </telerik:RadButton>
+                                            <telerik:RadButton x:Name="PART_CloseButton"
+                                                    Command="{x:Static telerik:WindowCommands.Close}"
+                                                    Style="{StaticResource WindowCloseButtonStyle}"
+                                                    Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Self}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip telerik:LocalizationManager.ResourceKey="Close"/>
+                                                </ToolTipService.ToolTip>
+                                                <telerik:RadGlyph Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type telerik:RadButton}}}" Glyph="{StaticResource GlyphClose}"/>
+                                            </telerik:RadButton>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                            <ContentPresenter x:Name="ContentElement" Grid.Row="1" Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                        </Grid>
+                    </AdornerDecorator>
+                    <ResizeGrip x:Name="WindowResizeGrip" HorizontalAlignment="Right" VerticalAlignment="Bottom" Visibility="Collapsed" IsTabStop="False"/>
+                </Grid>
+            </Border>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="WindowState" Value="Maximized">
+                <Setter TargetName="LayoutRoot" Property="Margin" Value="0"/>
+                <Setter TargetName="WindowOuterBorder" Property="BorderThickness" Value="0"/>
+                <Setter TargetName="WindowOuterBorder" Property="CornerRadius" Value="0"/>
+            </Trigger>
+            <Trigger Property="WindowState" Value="Minimized">
+                <Setter Property="MinHeight" Value="28"/>
+                <Setter TargetName="WindowHeaderRow" Property="MinHeight" Value="28"/>
+                <Setter TargetName="Header" Property="CornerRadius" Value="{telerik1:Windows11Resource ResourceKey=OverlayCornerRadius}"/>
+                <Setter TargetName="HeaderContent" Property="Margin" Value="5 0"/>
+                <Setter TargetName="LayoutRoot" Property="HorizontalAlignment" Value="Left"/>
+                <Setter TargetName="LayoutRoot" Property="VerticalAlignment" Value="Top"/>
+                <Setter TargetName="LayoutRoot" Property="Margin" Value="0"/>
+            </Trigger>
+            <Trigger Property="helpers:WindowEffectsHelper.BackdropMaterial" Value="Acrylic">
+                <Setter TargetName="WindowOuterBorder" Property="BorderThickness" Value="0"/>
+                <Setter TargetName="WindowOuterBorder" Property="CornerRadius" Value="0"/>
+            </Trigger>
+            <Trigger Property="helpers:WindowEffectsHelper.BackdropMaterial" Value="Mica">
+                <Setter TargetName="WindowOuterBorder" Property="BorderThickness" Value="0"/>
+                <Setter TargetName="WindowOuterBorder" Property="CornerRadius" Value="0"/>
+            </Trigger>
+            <Trigger Property="IsInActiveState" Value="False">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Header" Storyboard.TargetProperty="Opacity" To="0.5" FillBehavior="Stop" Duration="0:0:1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Setter Property="Opacity" TargetName="Header" Value="0.5"/>
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="Content" SourceName="IconContent" Value="{x:Null}"/>
+                    <Condition Property="ContentTemplate" SourceName="IconContent" Value="{x:Null}"/>
+                </MultiTrigger.Conditions>
+                <Setter TargetName="IconContent" Property="Visibility" Value="Collapsed"/>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsActiveWindow" Value="True"/>
+                    <Condition Property="helpers:WindowEffectsHelper.BackdropMaterial" Value="Mica"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetName="BackgroundVisual" Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)" To="#01FFFFFF" FillBehavior="Stop" Duration="0:0:1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </MultiTrigger.EnterActions>
+                <Setter Property="Background" TargetName="BackgroundVisual" Value="#01FFFFFF"/>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsActiveWindow" Value="True"/>
+                    <Condition Property="helpers:WindowEffectsHelper.BackdropMaterial" Value="Acrylic"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetName="BackgroundVisual" Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)" To="#01FFFFFF" FillBehavior="Stop" Duration="0:0:1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </MultiTrigger.EnterActions>
+                <Setter Property="Background" TargetName="BackgroundVisual" Value="#01FFFFFF"/>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="ResizeMode" Value="CanResizeWithGrip"/>
+                    <Condition Property="WindowState" Value="Normal"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="MinHeight" Value="54"/>
+                <Setter TargetName="WindowResizeGrip" Property="Visibility" Value="Visible"/>
+            </MultiTrigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <Style x:Key="RadWindowStyle" TargetType="telerikNavigation:RadWindow">
+        <Setter Property="helpers:WindowEffectsHelper.BackdropMaterial" Value="Mica"/>
+        <Setter Property="CornerRadius" Value="{telerik1:Windows11Resource ResourceKey=OverlayCornerRadius}"/>
+        <Setter Property="FontFamily" Value="{telerik1:Windows11Resource ResourceKey=FontFamily}"/>
+        <Setter Property="FontSize" Value="{telerik1:Windows11Resource ResourceKey=FontSize}"/>
+        <Setter Property="Foreground" Value="{telerik1:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+        <Setter Property="Background" Value="{telerik1:Windows11Resource ResourceKey=OverlayBrush}"/>
+        <Setter Property="BorderBackground" Value="{Binding RelativeSource={RelativeSource Self}, Path=Background, Converter={StaticResource OpacityConverter}, ConverterParameter=153}"/>
+        <Setter Property="BorderBrush" Value="{telerik1:Windows11Resource ResourceKey=AccentSelectedBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="KeyboardNavigation.IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="MinHeight" Value="34"/>
+        <Setter Property="MinWidth" Value="110"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="Header" Value="RadWindow"/>
+        <Setter Property="WindowStartupLocation" Value="Manual"/>
+        <Setter Property="WindowState" Value="Normal"/>
+        <Setter Property="CaptionHeight" Value="32"/>
+        <Setter Property="IconMargin" Value="16 2 -8 2"/>
+        <Setter Property="ResizeBorder" Value="6"/>
+        <Setter Property="Template" Value="{StaticResource RadWindowTemplate}"/>
+        <Setter Property="ModalBackground" Value="{telerik1:Windows11Resource ResourceKey=AlternativeBrush}"/>
+        <Setter Property="telerik:CornerRadiusHelper.ClipRadiusOffset" Value="-1"/>
+        <Setter Property="animation:AnimationManager.AnimationSelector">
+            <Setter.Value>
+                <animation:AnimationSelector>
+                    <animation:AnimationGroup AnimationName="Show">
+                        <animation:FadeAnimation Direction="In" TargetElementName="LayoutRoot" SpeedRatio="3"/>
+                    </animation:AnimationGroup>
+                    <animation:AnimationGroup AnimationName="Hide">
+                        <animation:FadeAnimation Direction="Out" TargetElementName="LayoutRoot" SpeedRatio="3"/>
+                    </animation:AnimationGroup>
+                </animation:AnimationSelector>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="navigation:RadWindowInteropHelper.OpaqueWindowBackground" Value="{telerik1:Windows11Resource ResourceKey=OverlayBrush}"/>
+        <Style.Triggers>
+            <Trigger Property="IsInActiveState" Value="False">
+                <Setter Property="BorderBrush" Value="{telerik1:Windows11Resource ResourceKey=PrimaryBorderBrush}"/>
+            </Trigger>
+            <Trigger Property="mat:ThemeEffectsHelper.IsAcrylic" Value="False">
+                <Setter Property="Background" Value="{telerik1:Windows11Resource ResourceKey=OverlayBrush}"/>
+                <Setter Property="ModalBackground" Value="{telerik1:Windows11Resource ResourceKey=OverlayBrush}"/>
+                <Setter Property="navigation:RadWindowInteropHelper.OpaqueWindowBackground" Value="{telerik1:Windows11Resource ResourceKey=OverlayBrush}"/>
+            </Trigger>
+            <Trigger Property="navigation:RadWindowInteropHelper.AllowTransparency" Value="False">
+                <Setter Property="mat:ThemeEffectsHelper.IsAcrylic" Value="False"/>
+                <Setter Property="mat:MaterialAssist.IsShadowDisabled" Value="True"/>
+                <Setter Property="navigation:RadWindowInteropHelper.ClipMaskCornerRadius" Value="0"/>
+                <Setter Property="animation:AnimationManager.IsAnimationEnabled" Value="False"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="RadPromptStyle" TargetType="telerikNavigation:RadPrompt">
+        <Setter Property="FontSize" Value="{telerik1:Windows11Resource ResourceKey=FontSize}"/>
+        <Setter Property="FontFamily" Value="{telerik1:Windows11Resource ResourceKey=FontFamily}"/>
+        <Setter Property="IconTemplate" Value="{StaticResource ConfirmIconTemplate}"/>
+        <Setter Property="MinHeight" Value="198"/>
+        <Setter Property="Width" Value="360"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Padding" Value="{StaticResource DialogContentMargin}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="telerikNavigation:RadPrompt">
+                    <Grid x:Name="LayoutRoot">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid Margin="{TemplateBinding Padding}" VerticalAlignment="Top">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <ScrollViewer IsTabStop="False" Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" BorderBrush="{x:Null}" Margin="0 0 0 20">
+                                <ContentPresenter x:Name="PromptText" VerticalAlignment="Center"/>
+                            </ScrollViewer>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter x:Name="Icon" Margin="{StaticResource IconMargin}" ContentTemplate="{TemplateBinding IconTemplate}"/>
+                                <TextBox x:Name="PromptTextBox" Grid.Column="1" AutomationProperties.Name="Prompt Editor" IsTabStop="True" TabIndex="0" Focusable="True"/>
+                            </Grid>
+                        </Grid>
+                        <Border
+                                Grid.Row="1"
+                                Background="{telerik1:Windows11Resource ResourceKey=AlternativeBrush}"
+                                BorderBrush="{telerik1:Windows11Resource ResourceKey=PrimaryBorderBrush}"
+                                BorderThickness="0 1 0 0"
+                                MinHeight="64">
+                            <Grid x:Name="DialogButtons" VerticalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <telerik:RadButton x:Name="OK"
+                                        Command="{x:Static telerik:WindowCommands.Confirm}"
+                                        telerikNavigation:RadWindow.ResponseButton="Accept"
+                                        telerik:LocalizationManager.ResourceKey="Ok"
+                                        VerticalAlignment="Center"
+                                        Margin="21 0 2 0"/>
+                                <telerik:RadButton x:Name="Cancel"
+                                        Grid.Column="1"
+                                        Command="{x:Static telerik:WindowCommands.Cancel}"
+                                        telerikNavigation:RadWindow.ResponseButton="Cancel"
+                                        VerticalAlignment="Center"
+                                        Margin="2 0 21 0"
+                                        telerik:LocalizationManager.ResourceKey="Cancel"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="RadConfirmStyle" TargetType="telerikNavigation:RadConfirm">
+        <Setter Property="ContentAreaMargin" Value="0"/>
+        <Setter Property="FontSize" Value="{telerik1:Windows11Resource ResourceKey=FontSize}"/>
+        <Setter Property="FontFamily" Value="{telerik1:Windows11Resource ResourceKey=FontFamily}"/>
+        <Setter Property="Foreground" Value="{telerik1:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="MinHeight" Value="198"/>
+        <Setter Property="MinWidth" Value="360"/>
+        <Setter Property="MaxWidth" Value="500"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="IconTemplate" Value="{StaticResource ConfirmIconTemplate}"/>
+        <Setter Property="Padding" Value="{StaticResource DialogContentMargin}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="telerikNavigation:RadConfirm">
+                    <Grid x:Name="LayoutRoot" Background="{TemplateBinding Background}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid Margin="{TemplateBinding Padding}" VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter x:Name="Icon" Margin="{StaticResource IconMargin}" ContentTemplate="{TemplateBinding IconTemplate}"/>
+                            <ScrollViewer IsTabStop="False" Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" BorderBrush="{x:Null}">
+                                <ContentPresenter x:Name="ConfirmText" VerticalAlignment="Center" Margin="{TemplateBinding ContentAreaMargin}"/>
+                            </ScrollViewer>
+                        </Grid>
+                        <Border
+                                Grid.Row="1"
+                                Background="{telerik1:Windows11Resource ResourceKey=AlternativeBrush}"
+                                BorderBrush="{telerik1:Windows11Resource ResourceKey=PrimaryBorderBrush}"
+                                BorderThickness="0 1 0 0"
+                                MinHeight="64">
+                            <Grid x:Name="DialogButtons" VerticalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <telerik:RadButton x:Name="OK"
+                                        Command="{x:Static telerik:WindowCommands.Confirm}"
+                                        telerikNavigation:RadWindow.ResponseButton="Accept"
+                                        telerik:LocalizationManager.ResourceKey="Ok"
+                                        VerticalAlignment="Center"
+                                        Margin="21 0 2 0"/>
+                                <telerik:RadButton x:Name="Cancel"
+                                        Grid.Column="1"
+                                        Command="{x:Static telerik:WindowCommands.Cancel}"
+                                        telerikNavigation:RadWindow.ResponseButton="Cancel"
+                                        VerticalAlignment="Center"
+                                        Margin="2 0 21 0"
+                                        telerik:LocalizationManager.ResourceKey="Cancel"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IconTemplate" Value="{x:Null}">
+                            <Setter TargetName="Icon" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="RadAlertStyle" TargetType="telerikNavigation:RadAlert">
+        <Setter Property="FontSize" Value="{telerik1:Windows11Resource ResourceKey=FontSize}"/>
+        <Setter Property="FontFamily" Value="{telerik1:Windows11Resource ResourceKey=FontFamily}"/>
+        <Setter Property="Foreground" Value="{telerik1:Windows11Resource ResourceKey=PrimaryForegroundBrush}"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="MinHeight" Value="198"/>
+        <Setter Property="MinWidth" Value="360"/>
+        <Setter Property="MaxWidth" Value="500"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="IconTemplate" Value="{StaticResource AlertIconTemplate}"/>
+        <Setter Property="Padding" Value="{StaticResource DialogContentMargin}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="telerikNavigation:RadAlert">
+                    <Grid x:Name="LayoutRoot" Background="{TemplateBinding Background}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.InputBindings>
+                            <KeyBinding Key="Escape" Command="{x:Static telerik:WindowCommands.Confirm}"/>
+                        </Grid.InputBindings>
+                        <Grid Margin="{TemplateBinding Padding}" VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter x:Name="Icon" Margin="{StaticResource IconMargin}" ContentTemplate="{TemplateBinding IconTemplate}"/>
+                            <ScrollViewer IsTabStop="False" Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" BorderBrush="{x:Null}">
+                                <ContentPresenter x:Name="AlertText" VerticalAlignment="Center"/>
+                            </ScrollViewer>
+                        </Grid>
+                        <Border
+                                Grid.Row="1"
+                                Grid.ColumnSpan="2"
+                                Background="{telerik1:Windows11Resource ResourceKey=AlternativeBrush}"
+                                BorderBrush="{telerik1:Windows11Resource ResourceKey=PrimaryBorderBrush}"
+                                BorderThickness="0 1 0 0"
+                                MinHeight="64">
+                            <telerik:RadButton x:Name="OK"
+                                    Command="{x:Static telerik:WindowCommands.Confirm}"
+                                    telerikNavigation:RadWindow.ResponseButton="Accept"
+                                    telerik:LocalizationManager.ResourceKey="Ok"
+                                    VerticalAlignment="Center"
+                                    Margin="45 0"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="telerikNavigation:RadAlert" BasedOn="{StaticResource RadAlertStyle}"/>
+    <Style TargetType="telerikNavigation:RadPrompt" BasedOn="{StaticResource RadPromptStyle}"/>
+    <Style TargetType="telerikNavigation:RadConfirm" BasedOn="{StaticResource RadConfirmStyle}"/>
+    <Style TargetType="telerikProofing:SpellCheckWordByWordWindow" BasedOn="{StaticResource RadWindowStyle}"/>
+    <Style TargetType="telerikProofing:SpellCheckAllAtOnceWindow" BasedOn="{StaticResource RadWindowStyle}"/>
+    <Style TargetType="telerikProofing:EditCustomDictionaryDialog" BasedOn="{StaticResource RadWindowStyle}"/>
+</ResourceDictionary>
