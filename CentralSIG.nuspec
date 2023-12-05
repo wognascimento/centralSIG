@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+	<metadata>
+		<id>CentralSIG</id>
+		<version>0.0.0</version>
+		<title>CentralSIG</title>
+		<authors>cIPOLATTI</authors>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<license type="expression">MIT</license>
+		<!-- <icon>icon.png</icon> -->
+		<projectUrl>https://github.com/wognascimento/centralSIG</projectUrl>
+		<description>SIG CENTRAL</description>
+		<releaseNotes>Sistema Integrado de Gerenciamento.</releaseNotes>
+		<copyright>$copyright$</copyright>
+		<tags>Tag1 Tag2</tags>
+	</metadata>
+
+	<files>
+		<file src="bin\Release\net7.0-windows\**" target="lib\net45"/>
+	</files>
+
+</package>

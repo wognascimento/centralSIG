@@ -17,7 +17,7 @@ namespace CentralSIG
     /// </summary>
     public partial class MainWindow : Window
     {
-        string path = @$"{Environment.GetEnvironmentVariable("USERPROFILE")}\AppData\Local";
+        string path = @$"C:\SIG"; //@$"{Environment.GetEnvironmentVariable("USERPROFILE")}\AppData\Local";
         string Producao;
         string Compras;
         string Expedicao;
@@ -25,6 +25,8 @@ namespace CentralSIG
         string Operacional;
         string Comercial;
         string Financeiro;
+
+        UpdateManager manager;
 
         public MainWindow()
         {
@@ -40,14 +42,38 @@ namespace CentralSIG
 
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            
-
+            try
+            {
+                manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/wognascimento/centralSIG");
+                var updateInfo = await manager.CheckForUpdate();
+                if (updateInfo.ReleasesToApply.Count > 0)
+                {
+                    RadWindow.Confirm(new DialogParameters()
+                    {
+                        Header = "Atualização",
+                        Content = "Existe uma atualização para o sistema, deseja atualiza?",
+                        Closed = async (object sender, WindowClosedEventArgs e) =>
+                        {
+                            var result = e.DialogResult;
+                            if (result == true)
+                            {
+                                await manager.UpdateApp();
+                                RadWindow.Alert("Sistema atualizado!\nFecha e abre o Sistema, para aplicar a atualização.");
+                            }
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                RadWindow.Alert(ex.Message);
+            }
         }
 
         static bool ShowTheWelcomeWizard;
-        private async Task RemovAtalho(string path)
+        private void RemovAtalho(string path)
         {
             try
             {
@@ -66,7 +92,7 @@ namespace CentralSIG
             }
         }
 
-        private async void OnOpenProducao(object sender, MouseButtonEventArgs e)
+        private void OnOpenProducao(object sender, MouseButtonEventArgs e)
         {
 
             if (Directory.Exists(Producao))
@@ -83,7 +109,7 @@ namespace CentralSIG
                 RadWindow.Alert(new DialogParameters() { Header = "S.I.G", Content = "Modulo Compras não esta instalado." });
         }
 
-        private async void OnOpenExpedicao(object sender, MouseButtonEventArgs e)
+        private void OnOpenExpedicao(object sender, MouseButtonEventArgs e)
         {
             if (Directory.Exists(@$"{Expedicao}"))
                 Process.Start(@$"{Expedicao}\expedicao.exe");
