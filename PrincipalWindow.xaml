@@ -1,0 +1,110 @@
+﻿<Window x:Class="CentralSIG.PrincipalWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CentralSIG"
+        mc:Ignorable="d"
+        Title="Central IOB Office" Height="720" Width="1280">
+
+    <Window.Resources>
+        <!-- Estilo para botões superiores com efeito de borda -->
+        <Style x:Key="TopButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="Gray"
+                                BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderThickness" Value="2"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF4081"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Estilo para botões inferiores com efeito de escala -->
+        <Style x:Key="BottomButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="#1A1A4A">
+        <!-- Barra superior -->
+        <Grid Height="30" VerticalAlignment="Top" Background="Purple">
+            <TextBlock Text="Central IOB Office - Usuário Logado: Wesley Oliveira" 
+                       Foreground="White" 
+                       VerticalAlignment="Center" 
+                       Margin="10,0,0,0"/>
+        </Grid>
+
+        <!-- Grade de botões superiores -->
+        <UniformGrid Columns="6" 
+                     Rows="2" 
+                     Margin="50,100,50,0" 
+                     HorizontalAlignment="Center">
+            
+            <Button Style="{StaticResource TopButtonStyle}">
+                <StackPanel>
+                    <Image Width="64" Height="64"/>
+                    <TextBlock Text="Ativar/Personalizar Sistema" 
+                               HorizontalAlignment="Center" 
+                               Foreground="White"/>
+                </StackPanel>
+            </Button>
+
+            <Button Style="{StaticResource TopButtonStyle}">
+                <StackPanel>
+                    <Image Width="64" Height="64"/>
+                    <TextBlock Text="Ativar/Personalizar Sistema" 
+                   HorizontalAlignment="Center" 
+                   Foreground="White"/>
+                </StackPanel>
+            </Button>
+
+        </UniformGrid>
+
+        <!-- Botões inferiores -->
+        <UniformGrid Columns="8" 
+                     Rows="1" 
+                     VerticalAlignment="Bottom" 
+                     Margin="0,0,0,50">
+            <Button Style="{StaticResource BottomButtonStyle}">
+                <TextBlock Text="PRODUÇÃO" Foreground="White"/>
+            </Button>
+            <!-- Repita para outros botões -->
+        </UniformGrid>
+
+
+    </Grid>
+</Window>

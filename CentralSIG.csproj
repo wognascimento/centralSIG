@@ -7,17 +7,23 @@
 		<RootNamespace>CentralSIG</RootNamespace>
 		<EnableDefaultItems>False</EnableDefaultItems>
 		<ApplicationIcon>Imagens\logo-vermelho.ico</ApplicationIcon>
+
+		<!-- Configurações de versão -->
+		<Version>1.0.0</Version>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<FileVersion>1.0.0.0</FileVersion>
+
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="DeltaCompressionDotNet" Version="2.0.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="NuGet.CommandLine" Version="6.8.0">
+		<PackageReference Include="NuGet.CommandLine" Version="6.11.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="squirrel.windows" Version="1.9.0" />
-		<PackageReference Include="Telerik.UI.for.Wpf.70.Xaml" Version="2023.1.117" />
+		<PackageReference Include="Telerik.UI.for.Wpf.70.Xaml" Version="2023.2.718" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -28,6 +34,9 @@
 		<Page Include="MainWindow.xaml">
 			<Generator>MSBuild:Compile</Generator>
 			<SubType>Designer</SubType>
+		</Page>
+		<Page Include="PrincipalWindow.xaml">
+		  <Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Page Include="Themes\System.Windows.xaml">
 			<Generator>MSBuild:Compile</Generator>
@@ -131,6 +140,7 @@
 			<DependentUpon>MainWindow.xaml</DependentUpon>
 			<SubType>Code</SubType>
 		</Compile>
+		<Compile Include="PrincipalWindow.xaml.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -139,23 +149,6 @@
 	    <Content Include="loading.gif" />
 </ItemGroup>
 	
-	<PropertyGroup>
-		<NugetTools>$(PkgNuGet_CommandLine)\tools</NugetTools>
-		<SquirrelTools>$(Pkgsquirrel_windows)\tools</SquirrelTools>
-
-		<Version>1.0.0</Version>
-
-		<NuspecFile>$(SolutionDir)\CentralSIG.nuspec</NuspecFile>
-	</PropertyGroup>
-
-	<Target Name="GenerateRelease" AfterTargets="AfterBuild" Condition="$(Configuration) == Release">
-		<XmlPeek XmlInputPath="$(NuspecFile)" Query="/package/metadata/id/text()">
-			<Output TaskParameter="Result" ItemName="ID" />
-		</XmlPeek>
-
-		<Exec Command="$(NugetTools)\NuGet.exe pack $(NuspecFile) -Version $(Version) -Properties Configuration=Release -OutputDirectory $(SolutionDir)Deployment\GeneratedNugets" />
-
-		<Exec Command="$(SquirrelTools)\Squirrel.exe --releasify $(SolutionDir)Deployment\GeneratedNugets\@(ID).$(Version).nupkg --releaseDir=$(SolutionDir)Deployment\Releases -g .\loading.gif" />
-	</Target>
-
+	
+    
 </Project>

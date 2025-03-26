@@ -44,8 +44,10 @@ namespace CentralSIG
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            
             try
             {
+                /*
                 manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/wognascimento/centralSIG");
                 var updateInfo = await manager.CheckForUpdate();
                 if (updateInfo.ReleasesToApply.Count > 0)
@@ -65,6 +67,7 @@ namespace CentralSIG
                         }
                     });
                 }
+                */
             }
             catch (Exception ex)
             {
