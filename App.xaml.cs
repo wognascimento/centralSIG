@@ -124,9 +124,6 @@ namespace CentralSIG
             }
             catch (Exception)
             {
-                // Log do erro ou tratamento adequado
-                //Console.WriteLine($"Erro ao verificar atualizações: {ex.Message}");
-                //return null;
                 throw;
             }
         }
