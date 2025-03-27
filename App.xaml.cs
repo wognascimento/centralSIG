@@ -84,7 +84,6 @@ namespace CentralSIG
             }
             catch (Exception ex)
             {
-                // Log do erro ou tratamento de exceção
                 MessageBox.Show(
                     $"Erro ao verificar atualizações: {ex.Message}",
                     "Erro",
