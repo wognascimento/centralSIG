@@ -25,6 +25,7 @@ namespace CentralSIG
         string Operacional;
         string Comercial;
         string Financeiro;
+        string RecursosHumanos;
 
         UpdateManager manager;
 
@@ -32,13 +33,14 @@ namespace CentralSIG
         {
             InitializeComponent();
 
-            Producao        = $@"{path}\Producao\";
-            Compras         = @$"{path}\Compras\";
-            Expedicao       = @$"{path}\Expedicao\";
-            Almoxarifado    = @$"{path}\Almoxarifado\";
-            Operacional     = @$"{path}\Operacional\";
-            Comercial       = @$"{path}\Comercial\";
-            Financeiro      = @$"{path}\Financeiro\";
+            Producao        = $@"{path}\S.I.G. Producao\";
+            Compras         = @$"{path}\S.I.G. Compras\";
+            Expedicao       = @$"{path}\S.I.G. Expedicao\";
+            Almoxarifado    = @$"{path}\S.I.G. Almoxarifado\";
+            Operacional     = @$"{path}\S.I.G. Operacional\";
+            Comercial       = @$"{path}\S.I.G. Comercial\";
+            Financeiro      = @$"{path}\S.I.G. Financeiro\";
+            RecursosHumanos = @$"{path}\S.I.G. Recursos Humanos\";
 
         }
 
@@ -122,9 +124,6 @@ namespace CentralSIG
 
         private void OnOpenAlmoxarifado(object sender, MouseButtonEventArgs e)
         {
-            RadWindow.Alert(new DialogParameters() { Header = "S.I.G", Content = "Modulo Almoxarifado esta em desenvolvimento." });
-            return;
-
             if (Directory.Exists(@$"{Almoxarifado}"))
                 Process.Start(@$"{Almoxarifado}\almoxarifado.exe");
             else
@@ -133,9 +132,6 @@ namespace CentralSIG
 
         private void OnOpenOperacional(object sender, MouseButtonEventArgs e)
         {
-            RadWindow.Alert(new DialogParameters() { Header = "S.I.G", Content = "Modulo Operacional esta em desenvolvimento." });
-            return;
-
             if (Directory.Exists(@$"{Operacional}"))
                 Process.Start(@$"{Operacional}\operacional.exe");
             else
@@ -144,9 +140,6 @@ namespace CentralSIG
 
         private void OnOpenComercial(object sender, MouseButtonEventArgs e)
         {
-            RadWindow.Alert(new DialogParameters() { Header = "S.I.G", Content = "Modulo Comercial esta em desenvolvimento." });
-            return;
-
             if (Directory.Exists(@$"{Comercial}"))
                 Process.Start(@$"{Comercial}\comercial.exe");
             else
@@ -155,13 +148,18 @@ namespace CentralSIG
 
         private void OnOpenFinanceiro(object sender, MouseButtonEventArgs e)
         {
-            RadWindow.Alert(new DialogParameters() { Header = "S.I.G", Content = "Modulo Financeiro esta em desenvolvimento." });
-            return;
-
             if (Directory.Exists(@$"{Financeiro}"))
                 Process.Start(@$"{Financeiro}\Financeiro.exe");
             else
                 RadWindow.Alert(new DialogParameters() { Header = "S.I.G", Content = "Modulo Financeiro não esta instalado." });
+        }
+
+        private void OnOpenRH(object sender, MouseButtonEventArgs e)
+        {
+            if (Directory.Exists(@$"{RecursosHumanos}"))
+                Process.Start(@$"{RecursosHumanos}\GestaoRH.exe");
+            else
+                RadWindow.Alert(new DialogParameters() { Header = "S.I.G", Content = "Modulo Recursos Humanos não esta instalado." });
         }
 
         private async Task SolicitarInstalacao()

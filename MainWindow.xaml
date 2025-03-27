@@ -203,6 +203,24 @@
             </StackPanel>
 
 
+            <StackPanel 
+                x:Name="LeftColumn4" 
+                Grid.Row="1" 
+                Grid.Column="0" 
+                Width="{StaticResource ColumnWidth}"
+                Style="{StaticResource HoverEffectStyle}"
+                Margin="20 0">
+                <StackPanel Background="#FF534FF6" Height="55" Orientation="Horizontal" MouseDown="OnOpenRH">
+                    <TextBlock 
+                        Margin="10 0 0 0" 
+                        TextWrapping="Wrap" 
+                        Text=" RECURSOS HUMANOS " 
+                        Style="{StaticResource HoverTextStyle}"/>
+                </StackPanel>
+            </StackPanel>
+
+
+
             <!--
             <StackPanel x:Name="CenterColumn3" Grid.Row="1" Grid.Column="1" Width="{StaticResource ColumnWidth}" Margin="10 0">
                 <StackPanel Background="#FFBA5C30" Height="55" Orientation="Horizontal" MouseDown="OnOpenOperacional">

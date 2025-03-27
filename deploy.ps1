@@ -5,6 +5,7 @@ $projectPath = $PSScriptRoot
 $outputPath = "$projectPath\bin\Release"
 $publishPath = "$projectPath\publish"
 $serverUploadPath = "root@192.168.0.49:/var/www/updates/downloads/central-sig/"
+$InnoCompiler = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
 
 # Função para extrair versão do arquivo de projeto
 function Get-ApplicationVersion {
@@ -44,6 +45,17 @@ $zipFullPath = "$projectPath\$zipFileName"
 # Compilar o projeto
 dotnet publish $projectPath -c Release -o $publishPath
 
+if (Test-Path $InnoCompiler) {
+    & $InnoCompiler "Setup.iss"
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "Compilação concluída com sucesso!"
+    } else {
+        Write-Host "Erro na compilação do instalador"
+    }
+} else {
+    Write-Host "Compilador do Inno Setup não encontrado"
+}
+
 # Zipar a aplicação
 Compress-Archive -Path "$publishPath\*" -DestinationPath $zipFullPath -Force
 
@@ -53,8 +65,8 @@ $updateJson = @{
     updateVersion = $version
     updateUrl = "http://192.168.0.49/downloads/central-sig/$zipFileName"
     changelog = @(
-        "Correção de bugs",
-        "Melhorias de desempenho"
+        "Ajustes",
+        "Melhorias"
     )
     releaseDate = (Get-Date).ToString("yyyy-MM-dd")
     minimumCompatibleVersion = "1.0.0"
