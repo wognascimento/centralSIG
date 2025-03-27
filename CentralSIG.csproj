@@ -148,6 +148,10 @@
 		<Content Include="Imagens\logo-vermelho.png" />
 	    <Content Include="loading.gif" />
 </ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\BibliotecasSIG\BibliotecasSIG\BibliotecasSIG.csproj" />
+	</ItemGroup>
 	
 	
     

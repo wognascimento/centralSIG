@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BibliotecasSIG;
+using System;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Reflection;
@@ -71,6 +72,16 @@ namespace CentralSIG
                     }
                 }
             }
+            catch(HttpRequestException ex)
+            {
+                // Log do erro ou tratamento de exceção
+                MessageBox.Show(
+                    $"Erro ao verificar atualizações: {ex.Message}",
+                    "Erro",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
+            }
             catch (Exception ex)
             {
                 // Log do erro ou tratamento de exceção
@@ -83,61 +94,6 @@ namespace CentralSIG
             }
         }
     }
-
-    // Classe para mapear o JSON de atualização
-    public class UpdateInfo
-    {
-        public string currentVersion { get; set; }
-        public string updateVersion { get; set; }
-        public string updateUrl { get; set; }
-        public string[] changelog { get; set; }
-        public string releaseDate { get; set; }
-        public string minimumCompatibleVersion { get; set; }
-    }
-
-    public class UpdateChecker
-    {
-        private readonly string _updateInfoUrl;
-        private readonly string _currentVersion;
-
-        public UpdateChecker(string updateInfoUrl, string currentVersion)
-        {
-            _updateInfoUrl = updateInfoUrl;
-            _currentVersion = currentVersion;
-        }
-
-        public async Task<UpdateInfo> CheckForUpdatesAsync()
-        {
-            try
-            {
-                using var client = new HttpClient();
-                var response = await client.GetStringAsync(_updateInfoUrl);
-                var updateInfo = JsonSerializer.Deserialize<UpdateInfo>(response);
-
-                // Comparar versões
-                if (IsUpdateAvailable(_currentVersion, updateInfo.updateVersion))
-                {
-                    return updateInfo;
-                }
-
-                return null;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        private bool IsUpdateAvailable(string currentVersion, string newVersion)
-        {
-            var current = new Version(currentVersion);
-            var latest = new Version(newVersion);
-
-            return latest > current;
-        }
-
-    }
-
 }
 
 
