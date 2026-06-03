@@ -30,6 +30,7 @@ namespace CentralSIG
         {
             return new[]
             {
+                CreateModule("APONTAMENTO", "Apontamento S.I.G", "Apontamento.exe", "#FFEAFF00"),
                 CreateModule("PRODUÇÃO", "Producao S.I.G", "producao.exe", "#FF33CC35"),
                 CreateModule("COMPRAS", "Compras S.I.G", "compras.exe", "#FFBA309B"),
                 CreateModule("EXPEDIÇÃO", "Expedicao S.I.G", "expedicao.exe", "#FF6251A1"),
