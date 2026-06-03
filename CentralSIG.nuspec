@@ -16,7 +16,7 @@
 	</metadata>
 
 	<files>
-		<file src="bin\Release\net7.0-windows\**" target="lib\net45"/>
+		<file src="bin\Release\net9.0-windows7.0\**" target="lib\net9.0-windows7.0"/>
 	</files>
 
 </package>

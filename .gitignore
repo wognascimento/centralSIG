@@ -361,5 +361,15 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# SIG deploy artifacts
+artifacts/
+publish/
+redist/
+build-verify/
+build-verify-*/
 Deployment/
-/Output/CentralSIG.exe
+Output/
+application-*.zip
+version.json
+*.tmp
