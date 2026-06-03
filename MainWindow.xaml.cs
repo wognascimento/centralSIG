@@ -26,6 +26,7 @@ namespace CentralSIG
         string Comercial;
         string Financeiro;
         string RecursosHumanos;
+        string Apontamento;
 
         UpdateManager manager;
 
@@ -33,14 +34,15 @@ namespace CentralSIG
         {
             InitializeComponent();
 
-            Producao        = $@"{path}\S.I.G. Producao\";
-            Compras         = @$"{path}\S.I.G. Compras\";
-            Expedicao       = @$"{path}\S.I.G. Expedicao\";
-            Almoxarifado    = @$"{path}\S.I.G. Almoxarifado\";
-            Operacional     = @$"{path}\S.I.G. Operacional\";
-            Comercial       = @$"{path}\S.I.G. Comercial\";
-            Financeiro      = @$"{path}\S.I.G. Financeiro\";
-            RecursosHumanos = @$"{path}\S.I.G. Recursos Humanos\";
+            Producao        = $@"{path}\Producao S.I.G.\";
+            Compras         = @$"{path}\Compras S.I.G.\";
+            Expedicao       = @$"{path}\Expedicao S.I.G.\";
+            Almoxarifado    = @$"{path}\Almoxarifado S.I.G.\";
+            Operacional     = @$"{path}\Operacional S.I.G.\";
+            Comercial       = @$"{path}\Comercial S.I.G.\";
+            Financeiro      = @$"{path}\Financeiro S.I.G.\";
+            RecursosHumanos = @$"{path}\Recursos Humanos S.I.G.\";
+            Apontamento     = @$"{path}\Apontamento S.I.G.\";
 
         }
 
@@ -162,6 +164,14 @@ namespace CentralSIG
                 RadWindow.Alert(new DialogParameters() { Header = "S.I.G", Content = "Modulo Recursos Humanos não esta instalado." });
         }
 
+        private void OnOpenApontamento(object sender, MouseButtonEventArgs e)
+        {
+            if (Directory.Exists(@$"{Apontamento}"))
+                Process.Start(@$"{Apontamento}\Apontamento.exe");
+            else
+                RadWindow.Alert(new DialogParameters() { Header = "S.I.G", Content = "Modulo Apontamento não esta instalado." });
+        }
+
         private async Task SolicitarInstalacao()
         {
             // Substitua "seu_url_glpi", "seu_user_token" e "seu_app_token" pelos valores reais
@@ -252,6 +262,7 @@ namespace CentralSIG
                 }
             }
         }
+
 
     }
 }
