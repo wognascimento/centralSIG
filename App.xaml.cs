@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
+using Telerik.Windows.Controls;
 
 namespace CentralSIG
 {
@@ -20,7 +21,8 @@ namespace CentralSIG
 
         public App()
         {
-           this.InitializeComponent();
+            StyleManager.ApplicationTheme = new FluentTheme();
+            this.InitializeComponent();
         }
 
         protected override async void OnStartup(StartupEventArgs e)
@@ -30,12 +32,21 @@ namespace CentralSIG
             await CheckForUpdatesAsync();
         }
 
-        private async Task CheckForUpdatesAsync()
+        public string InstalledVersion => CurrentVersion;
+
+        public async Task CheckForUpdatesAsync(bool showUpToDate = false)
         {
             try
             {
                 var updateChecker = new UpdateChecker(UpdateUrl, CurrentVersion);
                 var updateInfo = await updateChecker.CheckForUpdatesAsync();
+
+                if (updateInfo == null)
+                {
+                    if (showUpToDate)
+                        MessageBox.Show($"O sistema já está atualizado.\n\nVersão atual: {CurrentVersion}", "Atualização do sistema", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
 
                 if (updateInfo != null)
                 {

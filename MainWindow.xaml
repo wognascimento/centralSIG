@@ -54,11 +54,19 @@
     <Grid Margin="24">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel>
+        <telerik:RadMenu Grid.Row="0" Margin="-14,-14,-14,10">
+            <telerik:RadMenuItem Header="Outros">
+                <telerik:RadMenuItem Header="Atualizar Sistema" Click="OnAtualizarSistemaClick"/>
+                <telerik:RadMenuItem Header="Sobre" Click="OnSobreSistemaClick"/>
+            </telerik:RadMenuItem>
+        </telerik:RadMenu>
+
+        <StackPanel Grid.Row="1">
             <TextBlock Text="Central S.I.G."
                        FontFamily="Segoe UI Light"
                        FontSize="34"
@@ -70,7 +78,7 @@
                            Padding="0,4,0,18" />
         </StackPanel>
 
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding Modules}">
+        <ItemsControl Grid.Row="2" ItemsSource="{Binding Modules}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Columns="3" />
@@ -99,7 +107,7 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <TextBlock Grid.Row="2"
+        <TextBlock Grid.Row="3"
                    Text="{Binding SigRoot, StringFormat=Diretório dos módulos: {0}}"
                    FontFamily="Segoe UI"
                    FontSize="12"

@@ -26,6 +26,17 @@ namespace CentralSIG
 
         public IReadOnlyList<SigModule> Modules { get; }
 
+        private async void OnAtualizarSistemaClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        {
+            await ((App)Application.Current).CheckForUpdatesAsync(true);
+        }
+
+        private void OnSobreSistemaClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        {
+            var version = ((App)Application.Current).InstalledVersion;
+            MessageBox.Show($"Central S.I.G. - Sistema Integrado de Gerenciamento\n\nVersão atual: {version}", "Sobre o sistema", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
         private IReadOnlyList<SigModule> CreateModules()
         {
             return new[]
