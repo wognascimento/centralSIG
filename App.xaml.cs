@@ -1,7 +1,6 @@
 ﻿using BibliotecasSIG;
 using System;
 using System.Diagnostics;
-using System.Net.Http;
 using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -15,42 +14,54 @@ namespace CentralSIG
     /// </summary>
     public partial class App : Application
     {
-        private const string DefaultUpdateUrl = "http://192.168.0.49/downloads/central-sig/version.json";
+        private const string DefaultUpdateUrl = "https://atualizasig.cipolatti.com.br/downloads/central-sig/version.json";
         private static readonly string CurrentVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0.0";
-        private static readonly string UpdateUrl = Environment.GetEnvironmentVariable("CENTRALSIG_UPDATE_URL") ?? DefaultUpdateUrl;
+        private static readonly string UpdateUrl = ResolveUpdateUrl();
+
+        private static string ResolveUpdateUrl()
+        {
+            var configured = Environment.GetEnvironmentVariable("CENTRALSIG_UPDATE_URL");
+            if (string.IsNullOrWhiteSpace(configured))
+                return DefaultUpdateUrl;
+
+            if (Uri.TryCreate(configured.Trim(), UriKind.Absolute, out var uri)
+                && uri.Host == "192.168.0.49")
+                return DefaultUpdateUrl;
+
+            return configured.Trim();
+        }
 
         public App()
         {
-            StyleManager.ApplicationTheme = new FluentTheme();
+            StyleManager.ApplicationTheme = new Office2016Theme();
             this.InitializeComponent();
         }
 
-        protected override async void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
-
-            await CheckForUpdatesAsync();
-        }
+        private bool checkingForUpdates;
 
         public string InstalledVersion => CurrentVersion;
 
-        public async Task CheckForUpdatesAsync(bool showUpToDate = false)
+        public async Task CheckForUpdatesAsync(Window owner, bool showUpToDate = false)
         {
+            if (checkingForUpdates) return;
+            checkingForUpdates = true;
             try
             {
                 var updateChecker = new UpdateChecker(UpdateUrl, CurrentVersion);
                 var updateInfo = await updateChecker.CheckForUpdatesAsync();
+                if (!owner.IsVisible) return;
 
                 if (updateInfo == null)
                 {
                     if (showUpToDate)
-                        MessageBox.Show($"O sistema já está atualizado.\n\nVersão atual: {CurrentVersion}", "Atualização do sistema", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show(owner, $"O sistema já está atualizado.\n\nVersão atual: {CurrentVersion}", "Atualização do sistema", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
                 }
 
                 if (updateInfo != null)
                 {
                     var result = MessageBox.Show(
+                        owner,
                         $"Nova versão disponível!\n\n" +
                         $"Versão atual: {CurrentVersion}\n" +
                         $"Nova versão: {updateInfo.updateVersion}\n\n" +
@@ -77,23 +88,20 @@ namespace CentralSIG
                     }
                 }
             }
-            catch(HttpRequestException ex)
+            catch (Exception ex)
             {
+                if (!owner.IsVisible) return;
                 MessageBox.Show(
+                    owner,
                     $"Erro ao verificar atualizações: {ex.Message}",
                     "Erro",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error
                 );
             }
-            catch (Exception ex)
+            finally
             {
-                MessageBox.Show(
-                    $"Erro ao verificar atualizações: {ex.Message}",
-                    "Erro",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error
-                );
+                checkingForUpdates = false;
             }
         }
     }

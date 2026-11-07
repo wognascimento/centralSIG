@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -18,23 +19,33 @@ namespace CentralSIG
             InitializeComponent();
 
             SigRoot = Environment.GetEnvironmentVariable("SIG_ROOT") ?? DefaultSigRoot;
-            Modules = CreateModules();
+            var modules = CreateModules();
+            InstalledModules = modules.Where(module => module.Installed).ToList();
+            OtherModules = modules.Where(module => !module.Installed).ToList();
             DataContext = this;
+            ContentRendered += OnFirstContentRendered;
+        }
+
+        private async void OnFirstContentRendered(object sender, EventArgs e)
+        {
+            ContentRendered -= OnFirstContentRendered;
+            await ((App)Application.Current).CheckForUpdatesAsync(this);
         }
 
         public string SigRoot { get; }
 
-        public IReadOnlyList<SigModule> Modules { get; }
+        public IReadOnlyList<SigModule> InstalledModules { get; }
+        public IReadOnlyList<SigModule> OtherModules { get; }
 
         private async void OnAtualizarSistemaClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
-            await ((App)Application.Current).CheckForUpdatesAsync(true);
+            await ((App)Application.Current).CheckForUpdatesAsync(this, true);
         }
 
         private void OnSobreSistemaClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
             var version = ((App)Application.Current).InstalledVersion;
-            MessageBox.Show($"Central S.I.G. - Sistema Integrado de Gerenciamento\n\nVersão atual: {version}", "Sobre o sistema", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show($"Central SIG - Sistema Integrado de Gerenciamento\n\nVersão atual: {version}\nDiretório dos módulos: {SigRoot}", "Sobre o sistema", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private IReadOnlyList<SigModule> CreateModules()
@@ -64,11 +75,11 @@ namespace CentralSIG
                 ExecutableName = executableName,
                 ExecutablePath = executablePath,
                 Brush = (Brush)new BrushConverter().ConvertFromString(color),
-                Status = File.Exists(executablePath) ? "INSTALADO" : "NÃO INSTALADO"
+                Installed = File.Exists(executablePath)
             };
         }
 
-        private void OnModuleMouseDown(object sender, MouseButtonEventArgs e)
+        private void OnModuleClick(object sender, RoutedEventArgs e)
         {
             if (sender is FrameworkElement { DataContext: SigModule module })
             {
@@ -108,6 +119,6 @@ namespace CentralSIG
 
         public Brush Brush { get; set; }
 
-        public string Status { get; set; }
+        public bool Installed { get; set; }
     }
 }

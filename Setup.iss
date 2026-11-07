@@ -1,3 +1,9 @@
+#ifndef PublishSourcePath
+  #define PublishSourcePath "publish"
+#endif
+#ifndef InstallerOutputPath
+  #define InstallerOutputPath "artifacts\installer"
+#endif
 #ifndef MyAppVersion
   #define MyAppVersion "1.0.0.0"
 #endif
@@ -6,7 +12,14 @@
 #define MyAppPublisher "Cipolatti, Inc."
 #define MyAppURL "https://www.cipolatti.com.br"
 #define MyAppExeName "CentralSIG.exe"
-#define DotNetRuntimeInstaller "redist\windowsdesktop-runtime-10.0-win-x64.exe"
+#ifndef DotNetRuntimeInstaller
+  #define DotNetRuntimeInstaller "redist\windowsdesktop-runtime-10.0-win-x64.exe"
+#endif
+#ifndef SkipRuntimeBundle
+  #ifexist DotNetRuntimeInstaller
+    #define BundleRuntime
+  #endif
+#endif
 
 [Setup]
 AppId={{64BD335E-3919-45D6-8C72-5EC2C8E75BB6}
@@ -16,7 +29,7 @@ AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
-AppUpdatesURL={#MyAppURL}
+AppUpdatesURL=https://atualizasig.cipolatti.com.br
 DefaultDirName=C:\SIG\CentralSIG
 DisableDirPage=yes
 DisableProgramGroupPage=yes
@@ -25,8 +38,8 @@ ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 CloseApplications=yes
 RestartApplications=no
-PrivilegesRequired=lowest
-OutputDir=artifacts\installer
+PrivilegesRequired=admin
+OutputDir={#InstallerOutputPath}
 OutputBaseFilename=CentralSIGSetup-{#MyAppVersion}
 SetupIconFile=Imagens\logo-vermelho.ico
 SolidCompression=yes
@@ -36,20 +49,20 @@ WizardStyle=modern
 Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
 
 [Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
 
 [Files]
-Source: "publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-#ifexist DotNetRuntimeInstaller
-Source: "{#DotNetRuntimeInstaller}"; DestDir: "{tmp}"; Flags: deleteafterinstall
+Source: "{#PublishSourcePath}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+#ifdef BundleRuntime
+Source: "{#DotNetRuntimeInstaller}"; DestDir: "{tmp}"; DestName: "windowsdesktop-runtime-10.0-win-x64.exe"; Flags: deleteafterinstall
 #endif
 
 [Icons]
-Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
-#ifexist DotNetRuntimeInstaller
+#ifdef BundleRuntime
 Filename: "{tmp}\windowsdesktop-runtime-10.0-win-x64.exe"; Parameters: "/install /quiet /norestart"; StatusMsg: "Instalando .NET Desktop Runtime 10..."; Check: not IsDotNetDesktopRuntime10Installed
 #endif
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent

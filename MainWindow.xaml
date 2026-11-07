@@ -2,116 +2,103 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
-        Title="CENTRAL S.I.G - SISTEMA INTEGRADO DE GERENCIAMENTO"
-        Height="600"
-        Width="1024"
-        MinHeight="600"
-        MinWidth="900"
-        WindowStartupLocation="CenterScreen"
-        WindowStyle="ToolWindow">
-
+        Title="SISTEMA INTEGRADO DE GERENCIAMENTO - CENTRAL" Width="940" Height="580" MinWidth="620" MinHeight="360"
+        WindowStartupLocation="CenterScreen" Background="#F6F7F8" FontFamily="Segoe UI">
     <Window.Resources>
-        <Style x:Key="ModuleNameStyle" TargetType="TextBlock">
-            <Setter Property="FontFamily" Value="Segoe UI" />
-            <Setter Property="FontSize" Value="20" />
-            <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-        </Style>
-
-        <Style x:Key="ModuleStatusStyle" TargetType="TextBlock">
-            <Setter Property="FontFamily" Value="Segoe UI" />
-            <Setter Property="FontSize" Value="11" />
-            <Setter Property="Foreground" Value="#E6FFFFFF" />
-            <Setter Property="Margin" Value="0,6,0,0" />
-        </Style>
-
-        <Style x:Key="ModuleCardStyle" TargetType="Border">
-            <Setter Property="Height" Value="86" />
-            <Setter Property="Margin" Value="10" />
-            <Setter Property="Padding" Value="16,12" />
-            <Setter Property="CornerRadius" Value="4" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
-            <Setter Property="RenderTransform">
-                <Setter.Value>
-                    <ScaleTransform ScaleX="1" ScaleY="1" />
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Opacity" Value="0.88" />
-                    <Setter Property="RenderTransform">
-                        <Setter.Value>
-                            <ScaleTransform ScaleX="1.02" ScaleY="1.02" />
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+        <ItemsPanelTemplate x:Key="ModuleColumns">
+            <UniformGrid Columns="3"/>
+        </ItemsPanelTemplate>
+        <DataTemplate x:Key="ModuleTile">
+            <Button Click="OnModuleClick" IsEnabled="{Binding Installed}"
+                    AutomationProperties.Name="{Binding Name}" Margin="0,0,10,10"
+                    Foreground="#20282D" Background="White" BorderBrush="#CCD2D5">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="tile" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" CornerRadius="4">
+                            <Grid MinHeight="66" Margin="8,4,12,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Background="{Binding Brush}" CornerRadius="2" Margin="0,6"/>
+                                <StackPanel Grid.Column="1" Margin="10,0" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                                    <TextBlock x:Name="status" Text="Não instalado" FontSize="12"
+                                               Foreground="#505A60" Visibility="Collapsed"/>
+                                </StackPanel>
+                                <TextBlock x:Name="arrow" Grid.Column="2" Text="&#x2192;" FontSize="20"
+                                           Foreground="#46545C" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="tile" Property="BorderBrush" Value="#778891"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="tile" Property="BorderBrush" Value="#005A95"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="tile" Property="Background" Value="#E7EFF3"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="tile" Property="Background" Value="#F1F3F4"/>
+                                <Setter TargetName="arrow" Property="Visibility" Value="Collapsed"/>
+                                <Setter TargetName="status" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </DataTemplate>
     </Window.Resources>
-
-    <Grid Margin="24">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-
-        <telerik:RadMenu Grid.Row="0" Margin="-14,-14,-14,10">
-            <telerik:RadMenuItem Header="Outros">
-                <telerik:RadMenuItem Header="Atualizar Sistema" Click="OnAtualizarSistemaClick"/>
-                <telerik:RadMenuItem Header="Sobre" Click="OnSobreSistemaClick"/>
-            </telerik:RadMenuItem>
-        </telerik:RadMenu>
-
-        <StackPanel Grid.Row="1">
-            <TextBlock Text="Central S.I.G."
-                       FontFamily="Segoe UI Light"
-                       FontSize="34"
-                       Foreground="#FF333333" />
-            <telerik:Label Content="Clique no módulo para abrir o sistema"
-                           FontFamily="Segoe UI"
-                           FontSize="15"
-                           Foreground="#FF666666"
-                           Padding="0,4,0,18" />
-        </StackPanel>
-
-        <ItemsControl Grid.Row="2" ItemsSource="{Binding Modules}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Columns="3" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border Background="{Binding Brush}"
-                            Style="{StaticResource ModuleCardStyle}"
-                            MouseLeftButtonUp="OnModuleMouseDown">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-
-                            <TextBlock Text="{Binding Name}"
-                                       Style="{StaticResource ModuleNameStyle}"
-                                       TextWrapping="Wrap" />
-                            <TextBlock Grid.Row="1"
-                                       Text="{Binding Status}"
-                                       Style="{StaticResource ModuleStatusStyle}" />
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-
-        <TextBlock Grid.Row="3"
-                   Text="{Binding SigRoot, StringFormat=Diretório dos módulos: {0}}"
-                   FontFamily="Segoe UI"
-                   FontSize="12"
-                   Foreground="#FF777777"
-                   Margin="10,12,10,0" />
-    </Grid>
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Background="White" BorderBrush="#D8DDDF" BorderThickness="0,0,0,1" Padding="24,14">
+            <DockPanel>
+                <telerik:RadMenu DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <telerik:RadMenuItem Header="Opções">
+                        <telerik:RadMenuItem Header="Verificar atualizações" Click="OnAtualizarSistemaClick"/>
+                        <telerik:RadMenuItem Header="Sobre" Click="OnSobreSistemaClick"/>
+                    </telerik:RadMenuItem>
+                </telerik:RadMenu>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Imagens/logo-vermelho.png" Width="42" Height="40" Stretch="Uniform"/>
+                    <TextBlock Text="Central SIG" Margin="12,0,0,0" FontSize="24" FontWeight="SemiBold"
+                               Foreground="#20282D" VerticalAlignment="Center"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="24,20,14,12">
+                <TextBlock Text="Instalados nesta estação" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                <TextBlock Text="Nenhum módulo instalado." Margin="0,0,0,10">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding InstalledModules.Count}" Value="0">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <ItemsControl ItemsSource="{Binding InstalledModules}" ItemsPanel="{StaticResource ModuleColumns}" ItemTemplate="{StaticResource ModuleTile}"/>
+                <StackPanel>
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding OtherModules.Count}" Value="0">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <TextBlock Text="Outros módulos" FontSize="18" FontWeight="SemiBold" Margin="0,14,0,10"/>
+                    <ItemsControl ItemsSource="{Binding OtherModules}" ItemsPanel="{StaticResource ModuleColumns}" ItemTemplate="{StaticResource ModuleTile}"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
 </Window>

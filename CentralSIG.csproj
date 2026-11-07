@@ -9,9 +9,9 @@
 		<ApplicationIcon>Imagens\logo-vermelho.ico</ApplicationIcon>
 
 		<!-- Configurações de versão -->
-		<Version>2.0.2</Version>
-		<AssemblyVersion>2.0.0.2</AssemblyVersion>
-		<FileVersion>2.0.0.2</FileVersion>
+		<Version>2.0.0.3</Version>
+		<AssemblyVersion>2.0.0.3</AssemblyVersion>
+		<FileVersion>2.0.0.3</FileVersion>
 
 	</PropertyGroup>
 
@@ -41,7 +41,7 @@
 
 	<ItemGroup>
 		<Content Include="Imagens\logo-vermelho.ico" />
-		<Content Include="Imagens\logo-vermelho.png" />
+		<Resource Include="Imagens\logo-vermelho.png" />
 	    <Content Include="loading.gif" />
 </ItemGroup>
 
