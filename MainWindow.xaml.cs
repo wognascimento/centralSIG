@@ -50,8 +50,8 @@ namespace CentralSIG
 
         private IReadOnlyList<SigModule> CreateModules()
         {
-            return new[]
-            {
+            return
+            [
                 CreateModule("APONTAMENTO", "Apontamento S.I.G", "Apontamento.exe", "#FFEAFF00"),
                 CreateModule("PRODUÇÃO", "Producao S.I.G", "producao.exe", "#FF33CC35"),
                 CreateModule("COMPRAS", "Compras S.I.G", "compras.exe", "#FFBA309B"),
@@ -60,8 +60,9 @@ namespace CentralSIG
                 CreateModule("OPERACIONAL", "Operacional S.I.G", "operacional.exe", "#FFBA5C30"),
                 CreateModule("COMERCIAL", "Comercial S.I.G", "comercial.exe", "#FF860E0E"),
                 CreateModule("FINANCEIRO", "Financeiro S.I.G", "Financeiro.exe", "#FF797979"),
-                CreateModule("RECURSOS HUMANOS", "Recursos Humanos S.I.G", "GestaoRH.exe", "#FF534FF6")
-            };
+                //CreateModule("RECURSOS HUMANOS", "Recursos Humanos S.I.G", "GestaoRH.exe", "#FF534FF6"),
+                CreateModule("DP/RH", "DP_RH S.I.G", "DP_RH.exe", "#FF534FF6")
+            ];
         }
 
         private SigModule CreateModule(string name, string folderName, string executableName, string color)
